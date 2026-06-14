@@ -170,7 +170,7 @@
   svg.grid polygon{transition:fill .04s linear}
   .repeat-wrap{display:none;width:100%;max-width:1100px;filter:drop-shadow(0 10px 30px rgba(0,0,0,.18))}
   .repeat-wrap.on{display:block}
-  .repeat-wrap svg{display:block;width:100%;height:auto}
+  .repeat-wrap svg{display:block;width:100%;height:auto;touch-action:none}
   .stage-tag{position:absolute;left:16px;bottom:14px;font-size:11px;color:rgba(255,255,255,.7);font-family:"Space Grotesk",sans-serif;letter-spacing:.08em;text-transform:uppercase;pointer-events:none}
 
   .count-row{display:flex;gap:10px;margin-top:12px}
@@ -513,49 +513,61 @@
   }
 
   /* ---------- repeating pattern preview ---------- */
-  /* Styles:
-     - block:      identical copies in a clean grid (seam-free when columns are even)
-     - halfdrop:   alternate columns of copies dropped half a tile (classic textile repeat)
-     - brick:      alternate rows of copies shifted half a tile
-     - continuous: one unbroken honeycomb along the 60° lattice; always interlocks */
+  /* Styles: block / halfdrop / brick / mirror / continuous.
+     In repeat mode the preview is editable — every tile carries the base-cell
+     key it represents, so painting any copy updates the whole pattern. */
+  var repeatKeyIndex={}, unitOverlayEl=null;
+
+  function rgbDist(a,b){ var x=hexToRgb(a),y=hexToRgb(b),dr=x.r-y.r,dg=x.g-y.g,db=x.b-y.b; return Math.sqrt(dr*dr+dg*dg+db*db); }
+  function usedColors(){ var s={}; s[DEFAULT_FILL.toUpperCase()]=1; for(var k in state.fills) s[state.fills[k].toUpperCase()]=1; return Object.keys(s); }
+  function overlayColor(){
+    /* turquoise by default; if a tile color sits too close to it, switch to the
+       most distinct alternative so the boundary stays visible */
+    var TURQ='#15C2C2', used=usedColors();
+    function minDist(col){ var m=1e9; for(var i=0;i<used.length;i++) m=Math.min(m,rgbDist(col,used[i])); return m; }
+    if(minDist(TURQ)>=100) return TURQ;
+    var cands=['#FF2D78','#FF8A00','#7C3AED','#111111','#FFFFFF'], best=TURQ, bd=minDist(TURQ);
+    for(var i=0;i<cands.length;i++){ var d=minDist(cands[i]); if(d>bd){bd=d;best=cands[i];} }
+    return best;
+  }
+  function showUnitOverlay(){ if(unitOverlayEl) unitOverlayEl.style.display=''; }
+  function hideUnitOverlay(){ if(unitOverlayEl) unitOverlayEl.style.display='none'; }
+
   function buildRepeat(){
     var ns='http://www.w3.org/2000/svg';
     var cols=state.cols, rows=state.rows, rx=state.repeatX, ry=state.repeatY, style=state.repeatStyle;
     while(cols*rx*rows*ry>12000 && (rx>1||ry>1)){ if(rx>=ry && rx>1) rx--; else if(ry>1) ry--; else rx=Math.max(1,rx-1); }
     var PW=cols*COL_STEP, PH=rows*HH;
     var minX=1e9,minY=1e9,maxX=-1e9,maxY=-1e9, frag=document.createDocumentFragment();
-    function put(cx,cy,fill){
+    repeatKeyIndex={};
+    function put(cx,cy,key){
       var poly=document.createElementNS(ns,'polygon');
       poly.setAttribute('points',hexPoints(cx,cy));
-      poly.setAttribute('fill',fill);
+      poly.setAttribute('fill', state.fills[key]||DEFAULT_FILL);
       poly.setAttribute('stroke', state.showOutline?state.outline:'none');
       poly.setAttribute('stroke-width','2'); poly.setAttribute('stroke-linejoin','round');
+      poly.setAttribute('data-key',key);
       frag.appendChild(poly);
+      (repeatKeyIndex[key]||(repeatKeyIndex[key]=[])).push(poly);
       if(cx<minX)minX=cx; if(cx>maxX)maxX=cx; if(cy<minY)minY=cy; if(cy>maxY)maxY=cy;
     }
+    var units=[]; /* {x,y,w,h} boundary box per pattern set */
     if(style==='continuous'){
       var tc=cols*rx, tr=rows*ry;
-      for(var c=0;c<tc;c++) for(var r=0;r<tr;r++){
-        put(R+c*COL_STEP, HALF+(c%2?HALF:0)+r*HH+HALF, state.fills[(c%cols)+':'+(r%rows)]||DEFAULT_FILL);
-      }
+      for(var c=0;c<tc;c++) for(var r=0;r<tr;r++) put(R+c*COL_STEP, HALF+(c%2?HALF:0)+r*HH+HALF, (c%cols)+':'+(r%rows));
+      for(var ci=0;ci<rx;ci++) for(var cj=0;cj<ry;cj++) units.push({x:ci*PW,y:cj*PH+HALF,w:PW,h:PH});
     } else if(style==='mirror'){
-      /* reflect across shared edge columns/rows: every other copy is flipped,
-         forming a 4-up mirror block (TL original, TR flipped on the vertical
-         axis, bottom two flipped on the horizontal axis). Reflecting about a
-         column preserves its hex offset, so it stays seamless for any size. */
       function tri(n,size){ if(size<2) return 0; var P=2*(size-1), t=((n%P)+P)%P; return t<size?t:P-t; }
-      var mc=(cols-1)*rx+1, mr=(rows-1)*ry+1;
-      for(var c3=0;c3<mc;c3++) for(var r3=0;r3<mr;r3++){
-        put(R+c3*COL_STEP, HALF+(c3%2?HALF:0)+r3*HH+HALF, state.fills[tri(c3,cols)+':'+tri(r3,rows)]||DEFAULT_FILL);
-      }
+      var mc=(cols-1)*rx+1, mr=(rows-1)*ry+1, UW=(cols-1)*COL_STEP, UH=(rows-1)*HH;
+      for(var c3=0;c3<mc;c3++) for(var r3=0;r3<mr;r3++) put(R+c3*COL_STEP, HALF+(c3%2?HALF:0)+r3*HH+HALF, tri(c3,cols)+':'+tri(r3,rows));
+      for(var mi=0;mi<rx;mi++) for(var mj=0;mj<ry;mj++) units.push({x:mi*UW,y:mj*UH+HALF,w:UW,h:UH});
     } else {
       for(var i=0;i<rx;i++) for(var j=0;j<ry;j++){
         var ox=(style==='brick' && (j%2)) ? PW/2 : 0;
         var oy=(style==='halfdrop' && (i%2)) ? PH/2 : 0;
         var dx=i*PW+ox, dy=j*PH+oy;
-        for(var c2=0;c2<cols;c2++) for(var r2=0;r2<rows;r2++){
-          put(R+c2*COL_STEP+dx, HALF+(c2%2?HALF:0)+r2*HH+HALF+dy, state.fills[c2+':'+r2]||DEFAULT_FILL);
-        }
+        for(var c2=0;c2<cols;c2++) for(var r2=0;r2<rows;r2++) put(R+c2*COL_STEP+dx, HALF+(c2%2?HALF:0)+r2*HH+HALF+dy, c2+':'+r2);
+        units.push({x:dx,y:dy+HALF,w:PW,h:PH});
       }
     }
     var vx=minX-R, vy=minY-HALF, vw=(maxX-minX)+2*R, vh=(maxY-minY)+HH;
@@ -563,6 +575,17 @@
     svg.setAttribute('viewBox', vx.toFixed(1)+' '+vy.toFixed(1)+' '+vw.toFixed(1)+' '+vh.toFixed(1));
     svg.setAttribute('xmlns',ns);
     svg.appendChild(frag);
+    /* pattern-set outline overlay: hidden until hovering with a tool */
+    var og=document.createElementNS(ns,'g');
+    og.setAttribute('fill','none'); og.setAttribute('stroke',overlayColor()); og.setAttribute('stroke-width','3');
+    og.setAttribute('stroke-dasharray','9 6'); og.setAttribute('pointer-events','none'); og.style.display='none';
+    for(var u=0;u<units.length;u++){
+      var rc=document.createElementNS(ns,'rect');
+      rc.setAttribute('x',units[u].x.toFixed(1)); rc.setAttribute('y',units[u].y.toFixed(1));
+      rc.setAttribute('width',units[u].w.toFixed(1)); rc.setAttribute('height',units[u].h.toFixed(1));
+      rc.setAttribute('rx','3'); og.appendChild(rc);
+    }
+    svg.appendChild(og); unitOverlayEl=og;
     var wrap=$('repeatWrap'); wrap.innerHTML=''; wrap.appendChild(svg);
   }
 
@@ -593,25 +616,28 @@
   }
 
   /* ---------- painting + click/drag to clear ---------- */
-  /* The gesture's mode is locked in on pointerdown: pressing a tile that
-     already holds the selected color (in Paint) starts a "clear" sweep, so
-     dragging wipes a whole region. Otherwise the sweep paints. */
+  /* Gesture mode locks on pointerdown: pressing a tile that already holds the
+     selected color starts a clear sweep. Works on the single grid and, in
+     repeat mode, on the preview — where editing one cell drives every copy. */
   var painting=false, gestureMode=null;
-  function fillTile(el){ var k=el.getAttribute('data-key'); var prev=state.fills[k]; state.fills[k]=state.color; el.setAttribute('fill',state.color); if(prev!==state.color) playClink(); }
-  function clearTile(el){ var k=el.getAttribute('data-key'); delete state.fills[k]; el.setAttribute('fill',DEFAULT_FILL); }
+  function setKeyFill(key, color){
+    if(color===null) delete state.fills[key]; else state.fills[key]=color;
+    var f = color===null ? DEFAULT_FILL : color;
+    var gp=grid.querySelector('polygon[data-key="'+key+'"]'); if(gp) gp.setAttribute('fill',f);
+    var arr=repeatKeyIndex[key]; if(arr){ for(var i=0;i<arr.length;i++) arr[i].setAttribute('fill',f); }
+  }
   function applyMode(el){
-    if(!el || el.tagName!=='polygon' || !el.getAttribute('data-key')) return;
-    if(gestureMode==='paint') fillTile(el); else clearTile(el);
+    if(!el || el.tagName!=='polygon') return;
+    var key=el.getAttribute('data-key'); if(!key) return;
+    if(gestureMode==='paint'){ var prev=state.fills[key]; setKeyFill(key,state.color); if(prev!==state.color) playClink(); }
+    else setKeyFill(key,null);
   }
   function pointerTarget(ev){
     var t=ev.target; if(t && t.tagName==='polygon') return t;
     var el=document.elementFromPoint(ev.clientX,ev.clientY);
     return (el && el.tagName==='polygon')?el:null;
   }
-  /* cursor: eraser whenever the next action would clear (erase tool, or hovering
-     a tile that already holds the selected color); brush otherwise */
-  var _lastCursor=null;
-  function setGridCursor(c){ if(c!==_lastCursor){ grid.style.cursor=c; _lastCursor=c; } }
+  /* cursor: eraser when the next action would clear; brush otherwise */
   function baseCursor(){ return state.tool==='paint'?brushCursor:(state.tool==='erase'?eraserCursor:'default'); }
   function cursorForTile(el){
     if(state.tool==='erase') return eraserCursor;
@@ -624,32 +650,36 @@
     }
     return 'default';
   }
-  grid.addEventListener('pointerdown',function(ev){
-    if(!state.tool) return;
-    ev.preventDefault(); painting=true;
-    var el=pointerTarget(ev);
-    if(el){
-      var cur=state.fills[el.getAttribute('data-key')];
-      if(state.tool==='erase') gestureMode='clear';
-      else gestureMode=(cur && cur.toUpperCase()===state.color.toUpperCase()) ? 'clear' : 'paint';
-      try{ grid.setPointerCapture(ev.pointerId); }catch(e){}
+  function setCursor(surface,c){ if(surface.style.cursor!==c) surface.style.cursor=c; }
+  function wirePaint(surface, isRepeat){
+    surface.addEventListener('pointerdown',function(ev){
+      if(!state.tool) return;
+      var el=pointerTarget(ev); if(!el || !el.getAttribute('data-key')) return;
+      ev.preventDefault(); painting=true;
+      var key=el.getAttribute('data-key'), cur=state.fills[key];
+      gestureMode = (state.tool==='erase') ? 'clear' : ((cur && cur.toUpperCase()===state.color.toUpperCase()) ? 'clear' : 'paint');
+      try{ surface.setPointerCapture(ev.pointerId); }catch(e){}
+      if(isRepeat && state.tool) showUnitOverlay();
       applyMode(el);
-      setGridCursor(gestureMode==='clear'?eraserCursor:brushCursor);
-    }
-  });
-  grid.addEventListener('pointermove',function(ev){
-    var el=pointerTarget(ev);
-    if(painting && gestureMode){
-      ev.preventDefault(); applyMode(el);
-      setGridCursor(gestureMode==='clear'?eraserCursor:brushCursor);
-    } else {
-      setGridCursor(cursorForTile(el));
-    }
-  });
-  grid.addEventListener('pointerleave',function(){ setGridCursor(baseCursor()); });
+      setCursor(surface, gestureMode==='clear'?eraserCursor:brushCursor);
+    });
+    surface.addEventListener('pointermove',function(ev){
+      var el=pointerTarget(ev);
+      if(isRepeat && state.tool) showUnitOverlay();
+      if(painting && gestureMode){
+        ev.preventDefault(); applyMode(el);
+        setCursor(surface, gestureMode==='clear'?eraserCursor:brushCursor);
+      } else {
+        setCursor(surface, cursorForTile(el));
+      }
+    });
+    surface.addEventListener('pointerleave',function(){ setCursor(surface, baseCursor()); if(isRepeat) hideUnitOverlay(); });
+  }
   function stopPaint(){ painting=false; gestureMode=null; }
   window.addEventListener('pointerup',stopPaint);
   window.addEventListener('pointercancel',stopPaint);
+  wirePaint(grid,false);
+  wirePaint($('repeatWrap'),true);
 
   /* ---------- image sampling ---------- */
   var imagesList=$('imagesList'), loupe=$('loupe'), loupeDot=$('loupeDot'), loupeHex=$('loupeHex');
@@ -768,7 +798,7 @@
     var eraser='<path d="M20 20H7L3 16a2 2 0 0 1 0-3l9-9 7 7-7 7" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 20H7L3 16a2 2 0 0 1 0-3l9-9 7 7-7 7" fill="#fff" stroke="#1b1b19" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>';
     brushCursor=cur(brush,7,20); eraserCursor=cur(eraser,5,18);
   })();
-  function updateCursor(){ setGridCursor(baseCursor()); }
+  function updateCursor(){ setCursor(grid, baseCursor()); }
   function setTool(tool){
     state.tool=tool;
     var p=$('paintTool'), e=$('eraseTool');
