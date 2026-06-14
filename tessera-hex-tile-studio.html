@@ -43,8 +43,8 @@
   .group:last-child{margin-bottom:0}
   .boxed{border:1px solid var(--line-strong);border-radius:10px;padding:16px;margin-bottom:14px}
   .cap-label{
-    font-family:"Space Grotesk",sans-serif;font-size:12px;font-weight:600;text-transform:uppercase;
-    letter-spacing:.09em;color:#000;margin:0 0 12px;display:flex;justify-content:space-between;align-items:center;
+    font-family:"Space Grotesk",sans-serif;font-size:16.5px;font-weight:700;text-transform:none;
+    letter-spacing:-.005em;color:#000;margin:0 0 12px;display:flex;justify-content:space-between;align-items:center;
   }
   .label{
     font-family:"Space Grotesk",sans-serif;font-size:11px;font-weight:600;text-transform:uppercase;
@@ -64,6 +64,8 @@
   .sub:last-child{margin-bottom:0}
   .sublabel{font-family:"Space Grotesk",sans-serif;font-size:13px;font-weight:600;color:#000;margin:0 0 10px}
   .palette-box{margin-bottom:14px}
+  .toggle-row .name.cap-name{font-size:16.5px;font-weight:700;text-transform:none;letter-spacing:-.005em;color:#000}
+  .customize-box .palette{margin-top:16px}
 
   /* sliders (grid size) */
   .slider-row{display:flex;align-items:center;gap:12px;margin-bottom:12px}
@@ -207,18 +209,16 @@
 
     <!-- Customize Your Color Palette -->
     <div class="group">
-      <!-- palette: always visible, shown above the customize header -->
-      <div class="boxed palette-box">
-        <div class="cap-label">Palette</div>
-        <div class="palette" id="palette"></div>
-      </div>
-
       <div class="boxed customize-box">
         <button class="label big collapsible" id="colorToggle" aria-expanded="false" aria-controls="colorBody">
           Customize Your Color Palette
           <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
         </button>
 
+        <!-- palette squares: always visible, right under the heading -->
+        <div class="palette" id="palette"></div>
+
+        <!-- color tools: shown when expanded, under the palette squares -->
         <div class="collapse-body" id="colorBody" hidden>
 
         <!-- Color Slider -->
@@ -279,9 +279,8 @@
 
     <!-- Repeating pattern -->
     <div class="group boxed">
-      <div class="cap-label">Repeating Pattern</div>
       <div class="toggle-row">
-        <span class="name">Show repeating pattern</span>
+        <span class="name cap-name">Show repeating pattern</span>
         <label class="switch" title="Preview the design tiled into a repeating pattern"><input type="checkbox" id="repeatToggle"><span class="track"></span><span class="knob"></span></label>
       </div>
       <div class="select-row">
