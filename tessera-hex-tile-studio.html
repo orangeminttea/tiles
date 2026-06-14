@@ -233,18 +233,18 @@
             <div class="meta">
               <div class="hex-field">
                 <span>HEX</span>
-                <input type="text" class="hex" id="hexInput" value="#C24E3A" maxlength="7" spellcheck="false" aria-label="Hex color value">
+                <input type="text" class="hex" id="hexInput" value="#000000" maxlength="7" spellcheck="false" aria-label="Hex color value">
                 <label class="native-pick" title="Open system color picker">
-                  <input type="color" id="nativePick" value="#c24e3a" aria-label="System color picker">
+                  <input type="color" id="nativePick" value="#000000" aria-label="System color picker">
                   <span class="face" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r="1"/><circle cx="17.5" cy="10.5" r="1"/><circle cx="8.5" cy="7.5" r="1"/><circle cx="6.5" cy="12.5" r="1"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.9 0 1.5-.7 1.5-1.5 0-.4-.2-.8-.4-1-.2-.3-.4-.6-.4-1 0-.8.7-1.5 1.5-1.5H16c3.3 0 6-2.7 6-6 0-4.9-4.5-9-10-9z"/></svg></span>
                 </label>
               </div>
             </div>
           </div>
           <div class="rgb-nums">
-            <label><b>R</b><input type="number" id="cr" min="0" max="255" value="194" aria-label="Red 0 to 255"></label>
-            <label><b>G</b><input type="number" id="cg" min="0" max="255" value="78" aria-label="Green 0 to 255"></label>
-            <label><b>B</b><input type="number" id="cb" min="0" max="255" value="58" aria-label="Blue 0 to 255"></label>
+            <label><b>R</b><input type="number" id="cr" min="0" max="255" value="0" aria-label="Red 0 to 255"></label>
+            <label><b>G</b><input type="number" id="cg" min="0" max="255" value="0" aria-label="Green 0 to 255"></label>
+            <label><b>B</b><input type="number" id="cb" min="0" max="255" value="0" aria-label="Blue 0 to 255"></label>
           </div>
         </div>
 
@@ -371,7 +371,7 @@
 
   var state = {
     cols:12, rows:8,
-    color:'#C24E3A', hue:9, sat:0.70, val:0.76,
+    color:'#000000', hue:0, sat:0, val:0,
     palette:['#FFFFFF','#000000'],
     tool:'paint', outline:'#8a8a8a', showOutline:true,
     repeat:false, repeatX:3, repeatY:3, repeatStyle:'block',
