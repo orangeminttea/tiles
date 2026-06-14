@@ -54,12 +54,12 @@
   .label.big{font-size:16.5px;font-weight:700;text-transform:none;letter-spacing:-.005em;color:#000}
   .label.big .count{font-size:12.5px;font-weight:600;letter-spacing:.02em;color:var(--muted)}
   .boxed > .label.big{margin-bottom:14px}
-  .collapsible{width:100%;background:none;border:none;padding:0;cursor:pointer;font-family:"Space Grotesk",sans-serif}
-  .collapsible.boxed{border:1px solid var(--line-strong);border-radius:10px;padding:14px 16px;margin-bottom:14px;justify-content:flex-start;gap:8px}
-  .collapsible.boxed.label.big{margin-bottom:14px}
+  .collapsible{width:100%;background:none;border:none;padding:0;cursor:pointer;font-family:"Space Grotesk",sans-serif;justify-content:flex-start;gap:8px}
   .collapsible .chev{width:18px;height:18px;flex:0 0 auto;color:#000;transition:transform .18s}
   .collapsible[aria-expanded="true"] .chev{transform:rotate(90deg)}
   .collapsible:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+  .customize-box .label.big{margin:0}
+  .customize-box .collapse-body{margin-top:18px}
   .sub{margin-bottom:22px}
   .sub:last-child{margin-bottom:0}
   .sublabel{font-family:"Space Grotesk",sans-serif;font-size:13px;font-weight:600;color:#000;margin:0 0 10px}
@@ -131,19 +131,23 @@
   .pswatch:hover .x{display:flex}
 
   /* tools */
-  .seg{display:flex;border:1px solid var(--line-strong);border-radius:8px;overflow:hidden;margin-bottom:12px}
-  .seg button{flex:1;font-size:13px;font-weight:500;padding:9px;border:none;background:#fff;color:var(--muted);display:inline-flex;align-items:center;justify-content:center;gap:6px}
-  .seg button.on{background:var(--ink);color:#fff}
-  .seg button:not(.on):hover{background:#f4f3f1;color:var(--ink)}
-  .seg button svg{width:14px;height:14px}
+  .tool-grid{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:6px}
+  .tool-cell{background:none;border:none;padding:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:7px;width:54px}
+  .tool-sq{width:54px;height:54px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line-strong);border-radius:11px;background:#fff;color:var(--ink);transition:background .12s,border-color .12s,color .12s}
+  .tool-cell:hover .tool-sq{border-color:var(--ink);background:#f4f3f1}
+  .tool-cell.on .tool-sq{background:var(--ink);border-color:var(--ink);color:#fff}
+  .tool-cell:focus-visible .tool-sq{outline:2px solid var(--ink);outline-offset:2px}
+  .tool-sq svg{width:24px;height:24px}
+  .tool-cap{font-size:11px;color:var(--muted);text-align:center;line-height:1.2}
+  .tool-cell.on .tool-cap{color:var(--ink);font-weight:600}
 
   .toggle-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;font-size:13px}
   .toggle-row:last-child{margin-bottom:0}
   .toggle-row .name{color:#000;font-family:"Space Grotesk",sans-serif;font-size:11.5px;font-weight:600;text-transform:uppercase;letter-spacing:.07em}
   .toggle-row .right{display:flex;align-items:center;gap:10px}
-  .outline-pick{position:relative;width:44px;height:44px}
-  .outline-pick input{position:absolute;inset:0;opacity:0;cursor:pointer}
-  .outline-pick .face{width:44px;height:44px;border-radius:8px;border:1px solid var(--line-strong);box-shadow:inset 0 0 0 1px rgba(255,255,255,.3)}
+  .outline-pick{position:relative;width:50px;height:46px}
+  .outline-pick input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
+  .outline-pick .hex-face{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none}
   .outline-box{display:flex;align-items:center;justify-content:space-between}
   .outline-box .name{color:var(--muted);font-size:12px}
   .switch{position:relative;width:38px;height:22px;flex:0 0 38px}
@@ -203,18 +207,19 @@
 
     <!-- Customize Your Color Palette -->
     <div class="group">
-      <button class="label big collapsible boxed" id="colorToggle" aria-expanded="false" aria-controls="colorBody">
-        Customize Your Color Palette
-        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
-      </button>
-
-      <!-- palette: always visible, within this section -->
+      <!-- palette: always visible, shown above the customize header -->
       <div class="boxed palette-box">
         <div class="cap-label">Palette</div>
         <div class="palette" id="palette"></div>
       </div>
 
-      <div class="collapse-body" id="colorBody" hidden>
+      <div class="boxed customize-box">
+        <button class="label big collapsible" id="colorToggle" aria-expanded="false" aria-controls="colorBody">
+          Customize Your Color Palette
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+
+        <div class="collapse-body" id="colorBody" hidden>
 
         <!-- Color Slider -->
         <div class="sub">
@@ -269,6 +274,7 @@
         </button>
 
       </div>
+      </div>
     </div>
 
     <!-- Repeating pattern -->
@@ -297,13 +303,23 @@
     <!-- Tools -->
     <div class="group boxed">
       <div class="cap-label">Tools</div>
-      <div class="seg" role="group" aria-label="Tool">
-        <button id="paintTool" class="on" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.4 2.6a2 2 0 0 1 3 3L11 16l-4 1 1-4Z"/></svg>Paint</button>
-        <button id="eraseTool" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20H7L3 16a2 2 0 0 1 0-3l9-9 7 7-7 7"/></svg>Erase</button>
-      </div>
-      <div class="btn-row">
-        <button class="btn" id="clearBtn">Clear all</button>
-        <button class="btn" id="exportBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14"/></svg>Export PNG</button>
+      <div class="tool-grid" role="group" aria-label="Tools">
+        <button class="tool-cell on" id="paintTool" aria-pressed="true">
+          <span class="tool-sq"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9.06 11.9 8.07-8.06a2.85 2.85 0 1 1 4.03 4.03l-8.06 8.08"/><path d="M7.07 14.94c-1.66 0-3 1.35-3 3.02 0 1.33-2.5 1.52-2 2.02 1.08 1.1 2.49 2.02 4 2.02 2.2 0 4-1.8 4-4.04a3.01 3.01 0 0 0-3-3.02z"/></svg></span>
+          <span class="tool-cap">Paint</span>
+        </button>
+        <button class="tool-cell" id="eraseTool" aria-pressed="false">
+          <span class="tool-sq"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20H7L3 16a2 2 0 0 1 0-3l9-9 7 7-7 7"/></svg></span>
+          <span class="tool-cap">Erase</span>
+        </button>
+        <button class="tool-cell" id="clearBtn">
+          <span class="tool-sq"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg></span>
+          <span class="tool-cap">Clear all</span>
+        </button>
+        <button class="tool-cell" id="exportBtn">
+          <span class="tool-sq"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14"/></svg></span>
+          <span class="tool-cap">Export</span>
+        </button>
       </div>
       <p class="hint">Click and drag across tiles to paint. Start on a tile that already has the selected color to clear instead — then drag to wipe a whole region.</p>
     </div>
@@ -313,7 +329,10 @@
       <div class="cap-label">Outline Color</div>
       <div class="outline-box">
         <span class="name">Tile outline</span>
-        <label class="outline-pick" title="Outline color"><input type="color" id="outlinePick" value="#8a8a8a"><span class="face" id="outlineFace" style="background:#8a8a8a"></span></label>
+        <label class="outline-pick" title="Outline color">
+          <input type="color" id="outlinePick" value="#8a8a8a">
+          <svg class="hex-face" viewBox="0 0 40 36" aria-hidden="true"><polygon id="outlineHexFace" points="36,18 28,31.86 12,31.86 4,18 12,4.14 28,4.14" fill="#ffffff" stroke="#8a8a8a" stroke-width="3" stroke-linejoin="round"/></svg>
+        </label>
       </div>
     </div>
 
@@ -761,7 +780,7 @@
   $('paintTool').addEventListener('click',function(){ setTool(state.tool==='paint'?null:'paint'); });
   $('eraseTool').addEventListener('click',function(){ setTool(state.tool==='erase'?null:'erase'); });
 
-  $('outlinePick').addEventListener('input',function(e){ state.outline=e.target.value; $('outlineFace').style.background=e.target.value; applyOutlines(); });
+  $('outlinePick').addEventListener('input',function(e){ state.outline=e.target.value; $('outlineHexFace').setAttribute('stroke',e.target.value); applyOutlines(); });
   $('gridToggle').addEventListener('change',function(e){ state.showOutline=e.target.checked; applyOutlines(); });
 
   $('clearBtn').addEventListener('click',function(){ state.fills={}; var p=grid.querySelectorAll('polygon'); for(var i=0;i<p.length;i++) p[i].setAttribute('fill',DEFAULT_FILL); if(state.repeat) buildRepeat(); });
