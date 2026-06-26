@@ -14,7 +14,7 @@
     --line-strong:#c9c6c0;
     --ink:#1b1b19;
     --muted:#6f6e6a;
-    --faint:#97958f;
+    --faint:#6d6c67;
     --tile-default:#ecebe7;
     --tile-stroke:#8a8a8a;
     --accent:#1b1b19;
@@ -39,7 +39,9 @@
   .brand .mark{width:18px;height:20px;flex:0 0 auto}
   .tagline{color:var(--muted);font-size:12.5px;margin:0 0 22px;letter-spacing:.01em}
 
-  .group{margin-bottom:26px}
+  .group{margin-bottom:10px}
+  .group.g-paint{margin-bottom:14px}
+  .group.g-repeat{padding-top:26px}
   .group:last-child{margin-bottom:0}
   .boxed{border:1px solid var(--line-strong);border-radius:10px;padding:16px;margin-bottom:14px}
   .cap-label{
@@ -60,6 +62,15 @@
   .collapsible:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
   .customize-box .label.big{margin:0}
   .customize-box .collapse-body{margin-top:18px}
+  /* color-tools popup (opened by the palette +) */
+  #colorBody{position:fixed;z-index:70;width:300px;max-width:92vw;max-height:84vh;overflow:auto;margin:0;
+    background:var(--panel);border:1px solid var(--line-strong);border-radius:14px;
+    box-shadow:0 18px 44px rgba(0,0,0,.24);padding:14px 16px 16px}
+  #colorBody .pop-head{display:flex;align-items:center;justify-content:space-between;margin:0 0 14px}
+  #colorBody .pop-head span{font-family:"Space Grotesk",sans-serif;font-size:14px;font-weight:600;color:#000}
+  #colorBody .pop-close{width:26px;height:26px;border:none;background:transparent;border-radius:7px;cursor:pointer;
+    font-size:20px;line-height:1;color:#666;display:flex;align-items:center;justify-content:center}
+  #colorBody .pop-close:hover{background:rgba(0,0,0,.06);color:#000}
   .sub{margin-bottom:22px}
   .sub:last-child{margin-bottom:0}
   .sublabel{font-family:"Space Grotesk",sans-serif;font-size:13px;font-weight:600;color:#000;margin:0 0 10px}
@@ -77,9 +88,9 @@
 
   /* Photoshop-style picker */
   .picker{display:flex;gap:12px;margin-bottom:14px}
-  .sv{position:relative;flex:1;height:170px;border-radius:8px;cursor:crosshair;border:1px solid rgba(0,0,0,.15);touch-action:none}
+  .sv{position:relative;flex:1;height:140px;border-radius:8px;cursor:crosshair;border:1px solid rgba(0,0,0,.15);touch-action:none}
   .sv-handle{position:absolute;width:14px;height:14px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.55),0 1px 3px rgba(0,0,0,.4);transform:translate(-50%,-50%);pointer-events:none}
-  .hue{position:relative;width:22px;height:170px;border-radius:8px;cursor:ns-resize;border:1px solid rgba(0,0,0,.15);touch-action:none;
+  .hue{position:relative;width:22px;height:140px;border-radius:8px;cursor:ns-resize;border:1px solid rgba(0,0,0,.15);touch-action:none;
     background:linear-gradient(to bottom,#f00 0%,#ff0 17%,#0f0 33%,#0ff 50%,#00f 67%,#f0f 83%,#f00 100%)}
   .hue-handle{position:absolute;left:-3px;right:-3px;height:6px;border:2px solid #fff;border-radius:3px;box-shadow:0 0 0 1px rgba(0,0,0,.55);transform:translateY(-50%);pointer-events:none}
 
@@ -102,6 +113,14 @@
   .rgb-nums input{width:100%;border:none;outline:none;font-family:"Space Grotesk",monospace;font-size:13px;font-weight:500;background:transparent;color:var(--ink);-moz-appearance:textfield}
   .rgb-nums input::-webkit-outer-spin-button,.rgb-nums input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
   .rgb-nums label:focus-within{border-color:var(--ink)}
+  /* compact picker footer */
+  .pop-foot{display:flex;align-items:center;gap:10px;margin-top:14px}
+  .eyedrop-mini{flex:0 0 auto;width:40px;height:40px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line-strong);border-radius:9px;background:#fff;color:var(--ink);padding:0}
+  .eyedrop-mini:hover{border-color:var(--ink);background:#f4f3f1}
+  .eyedrop-mini.unsupported{border-color:#c0392b;color:#c0392b}
+  .eyedrop-mini svg{width:18px;height:18px}
+  .pop-chosen{flex:0 0 auto;width:40px;height:40px;border-radius:9px;border:1px solid rgba(0,0,0,.14);box-shadow:inset 0 0 0 1px rgba(255,255,255,.3)}
+  .pop-foot .btn{flex:1}
 
   .btn-row{display:flex;gap:8px}
   button{font-family:"Inter",sans-serif;cursor:pointer}
@@ -118,32 +137,57 @@
   .img-item{position:relative;border-radius:8px;overflow:hidden;border:1px solid var(--line-strong);line-height:0}
   .img-item img{width:100%;display:block;cursor:crosshair}
   .img-item .rm{position:absolute;top:6px;right:6px;width:22px;height:22px;border-radius:50%;border:none;background:rgba(20,20,18,.78);color:#fff;font-size:14px;display:flex;align-items:center;justify-content:center;cursor:pointer}
-  .img-empty{font-size:12.5px;color:var(--muted);border:1px dashed var(--line-strong);border-radius:8px;padding:12px;text-align:center;line-height:1.5}
+  .img-empty{font-size:12.5px;color:var(--ink);border:1px dashed var(--line-strong);border-radius:8px;padding:12px;text-align:center;line-height:1.5}
 
   /* loupe */
   .loupe{position:fixed;z-index:50;pointer-events:none;display:none;align-items:center;gap:8px;padding:5px 10px 5px 5px;background:#1b1b19;color:#fff;border-radius:999px;font-family:"Space Grotesk",monospace;font-size:12px;font-weight:500;transform:translate(-50%,calc(-100% - 14px));box-shadow:0 4px 14px rgba(0,0,0,.3)}
   .loupe .dot{width:20px;height:20px;border-radius:50%;border:2px solid #fff;flex:0 0 auto}
+  .color-confirm{position:fixed;z-index:60;display:none;align-items:center;gap:8px;padding:6px 8px;background:#1b1b19;color:#fff;border-radius:10px;font-family:"Space Grotesk",sans-serif;font-size:12px;transform:translate(-50%,calc(-100% - 12px));box-shadow:0 6px 20px rgba(0,0,0,.35)}
+  .color-confirm.on{display:flex}
+  .color-confirm .dot{width:18px;height:18px;border-radius:50%;border:2px solid #fff;flex:0 0 auto}
+  .color-confirm .cc-hex{font-variant-numeric:tabular-nums;opacity:.85;font-family:monospace}
+  .color-confirm .cc-q{font-weight:600;margin-left:2px}
+  .color-confirm button{border:none;border-radius:6px;padding:5px 10px;font-size:11.5px;font-weight:600;cursor:pointer;font-family:inherit}
+  .color-confirm #ccAdd{background:#fff;color:#1b1b19}
+  .color-confirm #ccCancel{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.5)}
 
   /* palette */
-  .palette{display:grid;grid-template-columns:repeat(8,1fr);gap:7px}
+  .palette{display:grid;grid-template-columns:repeat(6,1fr);gap:11px}
   .palette .empty{grid-column:1/-1;font-size:12.5px;color:var(--muted);line-height:1.5;border:1px dashed var(--line-strong);border-radius:8px;padding:12px;text-align:center}
-  .pswatch{position:relative;aspect-ratio:1;border-radius:6px;border:1px solid rgba(0,0,0,.14);cursor:pointer;box-shadow:inset 0 0 0 1px rgba(255,255,255,.3)}
+  .pswatch{position:relative;aspect-ratio:1;border-radius:8px;border:1px solid rgba(0,0,0,.14);cursor:pointer;box-shadow:inset 0 0 0 1px rgba(255,255,255,.3)}
   .pswatch.sel{box-shadow:0 0 0 2px var(--panel),0 0 0 4px var(--ink)}
-  .pswatch .x{position:absolute;top:-6px;right:-6px;width:16px;height:16px;border-radius:50%;background:var(--ink);color:#fff;border:none;font-size:11px;line-height:1;display:none;align-items:center;justify-content:center;padding:0}
-  .pswatch .rep{position:absolute;top:-6px;left:-6px;width:16px;height:16px;border-radius:50%;background:var(--ink);color:#fff;border:none;display:none;align-items:center;justify-content:center;padding:0;cursor:pointer}
-  .pswatch .rep svg{width:10px;height:10px}
-  .pswatch:hover .rep{display:flex}
-  .pswatch:hover .x{display:flex}
-  .replace-banner{display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:var(--ink);color:#fff;border-radius:8px;padding:10px 12px;margin-bottom:16px;font-size:12px}
-  .replace-banner .chip{width:26px;height:26px;border-radius:5px;border:1px solid rgba(255,255,255,.4);flex:0 0 auto}
-  .replace-banner .arrow{flex:0 0 auto;opacity:.85}
-  .replace-banner .rb-text{flex:1 1 90px;min-width:90px;line-height:1.3}
-  .replace-banner button{flex:0 0 auto;border:none;border-radius:6px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit}
-  .replace-banner #rbApply{background:#fff;color:var(--ink)}
-  .replace-banner #rbCancel{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.5)}
+  .pswatch .x,.pswatch .swp{position:absolute;border-radius:50%;display:flex;align-items:center;justify-content:center;padding:0;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.35)}
+  .pswatch .swp{bottom:2px;left:2px;width:21px;height:21px;background:#fff;color:var(--ink);border:1.5px solid var(--ink)}
+  .pswatch .swp svg{width:14px;height:14px}
+  .pswatch .x{top:2px;right:2px;width:14px;height:14px;background:var(--ink);color:#fff;border:1.5px solid #fff;font-size:10px;line-height:1}
+  .plus-swatch{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border:1px dashed var(--line-strong);border-radius:8px;background:transparent;color:var(--muted);cursor:pointer;padding:0}
+  .plus-swatch svg{width:18px;height:18px}
+  .plus-swatch:hover{border-color:var(--ink);color:var(--ink)}
+  .plus-swatch.on{border-style:solid;border-color:var(--ink);color:var(--ink)}
+  .lock-warn{display:flex;align-items:flex-start;gap:7px;color:#c0392b}
+  .lock-warn .warn-tri{width:16px;height:16px;flex:0 0 auto;margin-top:1px}
+  .swap-panel{margin-top:16px}
+  .sub-cap{margin-bottom:10px}
+  .swap-boxes{display:flex;align-items:flex-end;gap:12px}
+  .swap-col{display:flex;flex-direction:column;align-items:center;gap:6px;flex:0 0 auto}
+  .swap-box-label{font-size:10px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+  .swap-sq{position:relative;width:54px;height:54px;border-radius:9px;border:1px solid var(--line-strong);background:var(--panel);cursor:pointer;padding:3px}
+  .swap-sq input[type="color"]{position:absolute;inset:0;width:100%;height:100%;opacity:0;border:none;margin:0;padding:0;cursor:pointer}
+  .swap-sq.on{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink) inset}
+  .swap-chip{display:block;width:100%;height:100%;border-radius:6px;border:1px solid rgba(0,0,0,.14);background-image:repeating-conic-gradient(#dcdcd8 0% 25%, #fff 0% 50%);background-size:11px 11px}
+  .swap-arrow{width:22px;height:22px;color:var(--muted);flex:0 0 auto;margin-bottom:16px}
+  .swap-hint{font-size:11px;color:var(--muted);line-height:1.45;margin-top:10px}
+  .anchor-row2{display:flex;flex-direction:column;gap:6px}
+  .anchor-row2+.anchor-row2{margin-top:10px}
 
   /* tools */
   .tool-grid{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:6px}
+  #paintBody .tool-grid{margin-top:18px}
+  .tool-cell:disabled{opacity:.4;cursor:default}
+  .tool-cell:disabled:hover .tool-sq{border-color:var(--line-strong);background:#fff}
+  .pick-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;margin:0 0 18px}
+  .pick-sw{width:100%;aspect-ratio:1/1;border:1px solid var(--line-strong);border-radius:8px;cursor:pointer;padding:0}
+  .pick-sw.sel{outline:3px solid var(--ink);outline-offset:1px;border-color:var(--ink)}
   .tool-cell{background:none;border:none;padding:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:7px;width:54px}
   .tool-sq{width:54px;height:54px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line-strong);border-radius:11px;background:#fff;color:var(--ink);transition:background .12s,border-color .12s,color .12s}
   .tool-cell:hover .tool-sq{border-color:var(--ink);background:#f4f3f1}
@@ -175,7 +219,34 @@
   .hint{font-size:11.5px;color:var(--faint);line-height:1.5;margin:14px 0 0}
 
   /* stage */
-  .stage{flex:1;height:100%;position:relative;background:var(--stage);display:flex;align-items:center;justify-content:center;padding:40px;overflow:hidden}
+  .stage{flex:1;height:100%;position:relative;background:var(--stage);display:flex;flex-direction:column;overflow:hidden}
+  .stage-tabs{flex:0 0 auto;display:flex;gap:4px;padding:10px 14px 0;background:var(--panel)}
+  .stage-tab{appearance:none;border:none;background:transparent;color:var(--muted);
+    font-family:"Space Grotesk",sans-serif;font-size:13px;font-weight:600;letter-spacing:.01em;
+    padding:9px 16px;border-radius:9px 9px 0 0;cursor:pointer}
+  .stage-tab:hover{background:rgba(0,0,0,.05);color:var(--ink)}
+  .stage-tab.on{background:var(--stage);color:var(--ink)}
+  .design-pane{display:flex;flex-direction:column;overflow:hidden}
+  .design-toolbar{flex:0 0 auto;display:flex;align-items:flex-start;justify-content:center;flex-wrap:wrap;gap:8px;padding:12px 18px 8px}
+  .tool-group{display:flex;gap:8px}
+  .tool-sep{width:1px;height:40px;background:rgba(20,22,26,.28);margin:0 6px}
+  .stool{display:flex;flex-direction:column;align-items:center;gap:6px;width:60px;background:none;border:none;padding:0;cursor:pointer}
+  .stool .ic{width:43px;height:43px;display:flex;align-items:center;justify-content:center;border-radius:11px;
+    background:rgba(255,255,255,.78);border:1px solid rgba(20,22,26,.2);color:var(--ink);transition:background .12s,border-color .12s,color .12s}
+  .stool .ic svg{width:20px;height:20px;display:block}
+  .stool .lbl{font-family:"Space Grotesk",sans-serif;font-size:11.8px;font-weight:600;letter-spacing:.02em;color:var(--ink);text-align:center;line-height:1.1}
+  .stool:hover .ic{background:#fff}
+  .stool.on .ic{background:var(--ink);border-color:var(--ink);color:#fff}
+  .stool:disabled{opacity:.42;cursor:default}
+  .stool:disabled:hover .ic{background:rgba(255,255,255,.78)}
+  .design-canvas{flex:1;min-height:0;position:relative;display:flex;align-items:center;justify-content:center;padding:32px 52px 52px;overflow:hidden}
+  .stage-pane{flex:1;min-height:0;position:relative}
+  .stage-pane[hidden]{display:none}
+  .ref-pane{overflow:auto;padding:30px 30px 44px}
+  .ref-inner{max-width:560px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:16px}
+  .ref-inner .btn{flex:none;width:auto;min-width:200px}
+  .ref-sub{color:var(--ink);font-size:13px;line-height:1.5;text-align:center;margin:0;max-width:440px}
+  .ref-inner .images-list{width:100%}
   .canvas-wrap{width:100%;height:100%;display:flex;align-items:center;justify-content:center}
   .canvas-wrap.hidden{display:none}
   svg.grid{display:block;width:100%;height:100%;touch-action:none;-webkit-user-select:none;user-select:none;filter:drop-shadow(0 10px 30px rgba(0,0,0,.18))}
@@ -183,7 +254,35 @@
   .repeat-wrap{display:none;width:100%;height:100%;align-items:center;justify-content:center}
   .repeat-wrap.on{display:flex}
   .repeat-wrap svg{display:block;width:100%;height:100%;touch-action:none;filter:drop-shadow(0 10px 30px rgba(0,0,0,.18))}
-  .stage-tag{position:absolute;left:16px;bottom:14px;font-size:11px;color:rgba(255,255,255,.7);font-family:"Space Grotesk",sans-serif;letter-spacing:.08em;text-transform:uppercase;pointer-events:none}
+  .stage-tag{position:absolute;top:16px;left:20px;z-index:7;
+    font-family:"Space Grotesk",sans-serif;font-size:15px;font-weight:600;letter-spacing:.14em;
+    color:#fff;background:rgba(20,22,26,.42);padding:6px 16px;border-radius:999px;
+    border:1px solid rgba(255,255,255,.18);pointer-events:none}
+
+  .stage-actions{position:absolute;top:15px;right:20px;display:flex;gap:8px;z-index:9}
+  .sbtn{width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:9px;
+    border:1px solid rgba(255,255,255,.28);background:rgba(20,22,26,.72);color:#fff;cursor:pointer;
+    box-shadow:0 4px 14px rgba(0,0,0,.28);backdrop-filter:blur(2px);transition:opacity .15s,background .15s}
+  .sbtn svg{width:18px;height:18px;display:block}
+  .sbtn:hover{background:rgba(20,22,26,.92)}
+  .sbtn:disabled{opacity:.3;cursor:default}
+
+  /* draggable grid-edge handles */
+  .edge-handle{position:absolute;display:none;align-items:center;justify-content:center;z-index:8;
+    color:#fff;opacity:.42;transition:opacity .15s,transform .12s;touch-action:none;transform:translate(-50%,-50%)}
+  .edge-handle.show{display:flex}
+  .edge-handle:hover,.edge-handle.dragging{opacity:1;transform:translate(-50%,-50%) scale(1.05)}
+  .edge-handle .grip{display:flex;align-items:center;justify-content:center;background:rgba(20,22,26,.78);
+    border:1px solid rgba(255,255,255,.28);border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,.3);backdrop-filter:blur(2px)}
+  .edge-handle .grip svg{width:18px;height:18px;display:block}
+  .edge-handle.eh-x{width:30px;height:84px;cursor:ew-resize}
+  .edge-handle.eh-x .grip{width:24px;height:64px}
+  .edge-handle.eh-y{width:84px;height:30px;cursor:ns-resize}
+  .edge-handle.eh-y .grip{width:64px;height:24px}
+  .edge-badge{position:absolute;z-index:21;pointer-events:none;background:var(--ink);color:#fff;
+    font-family:"Space Grotesk",sans-serif;font-size:12px;font-weight:600;letter-spacing:.02em;
+    padding:5px 9px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,.32);white-space:nowrap;transform:translate(-50%,-50%)}
+  .edge-badge[hidden]{display:none}
 
   .count-row{display:flex;gap:10px;margin-top:12px}
   .count-row label{flex:1;display:flex;flex-direction:column;gap:5px;font-size:11px;color:var(--muted)}
@@ -196,16 +295,71 @@
   .select-row select{flex:1;max-width:180px;border:1px solid var(--line-strong);border-radius:7px;padding:7px 9px;background:#fff;color:var(--ink);font-family:"Inter",sans-serif;font-size:13px;cursor:pointer}
   .select-row select:focus-visible{outline:2px solid var(--ink);outline-offset:1px;border-color:var(--ink)}
   .popnote{margin-top:14px;background:var(--ink);color:#fff;border-radius:8px;padding:10px 12px;font-size:11.5px;line-height:1.45}
-  .orient-row{display:flex;gap:8px;margin:12px 0 16px}
-  .orient-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;padding:9px 6px;border:1px solid var(--line-strong);border-radius:10px;background:var(--panel);cursor:pointer;color:var(--muted);font-size:10.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;font-family:inherit}
-  .orient-btn svg{width:46px;height:28px}
+  .orient-row{display:flex;gap:18px;margin:12px 0 10px}
+  .orient-opt{display:flex;flex-direction:column;align-items:center;gap:7px}
+  .orient-btn{width:54px;height:54px;display:flex;align-items:center;justify-content:center;padding:0;border:1px solid var(--line-strong);border-radius:10px;background:var(--panel);cursor:pointer;color:var(--muted)}
+  .orient-btn svg{width:40px;height:26px}
   .orient-btn.on{border-color:var(--ink);color:var(--ink);box-shadow:0 0 0 1px var(--ink) inset}
+  .orient-label{font-size:10.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);text-align:center}
+  .orient-btn.on+.orient-label{color:var(--ink)}
+  .anchor-block{margin:2px 0 6px}
+  .anchor-head{display:block;font-size:10.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+  .anchor-pair{display:flex;gap:8px}
+  .seg{display:flex;flex:1;border:1px solid var(--line-strong);border-radius:8px;overflow:hidden}
+  .seg button{flex:1;border:none;background:var(--panel);color:var(--muted);font-size:11px;font-weight:600;padding:6px 4px;cursor:pointer;font-family:inherit}
+  .seg button.on{background:var(--ink);color:#fff}
+  .seg button+button{border-left:1px solid var(--line-strong)}
 
   @media (prefers-reduced-motion: reduce){*{transition:none !important}}
+
+  /* panel subtitle under each header */
+  .panel-sub{font-size:12.5px;color:var(--muted);line-height:1.5;margin:0 0 14px}
+
+  /* repeat panel: header with a switch, body revealed by the switch */
+  .switch-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .switch-body{margin-top:18px}
+  .slider-row input[type="range"]{flex:1;min-width:0;accent-color:var(--ink)}
+
+  /* stage action buttons: export / share to the left of undo / redo */
+  .sbtn-divider{width:1px;height:24px;background:rgba(255,255,255,.32);margin:0 2px;align-self:center}
+  .copy-toast{position:absolute;top:14px;right:18px;z-index:21;background:var(--ink);color:#fff;
+    font-family:"Space Grotesk",sans-serif;font-size:12px;font-weight:600;letter-spacing:.02em;
+    padding:6px 12px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,.32)}
+  .copy-toast[hidden]{display:none}
+
+  /* clear-confirmation modal */
+  .modal-scrim{position:fixed;inset:0;z-index:60;background:rgba(20,22,26,.5);display:flex;align-items:center;justify-content:center;padding:24px}
+  .modal-scrim[hidden]{display:none}
+  .modal{width:340px;max-width:92vw;background:var(--panel);border:1px solid var(--line-strong);border-radius:14px;
+    box-shadow:0 20px 50px rgba(0,0,0,.3);padding:22px 22px 18px}
+  .modal-title{font-family:"Space Grotesk",sans-serif;font-size:16px;font-weight:600;color:var(--ink);margin:0 0 8px;line-height:1.3}
+  .modal-sub{font-size:12px;color:var(--muted);line-height:1.5;margin:0 0 18px}
+  .modal-actions{display:flex;gap:10px;justify-content:flex-end}
+  .modal-actions .btn{flex:0 0 auto;min-width:84px}
+  .flood-swatch-row{display:flex;align-items:center;gap:10px;margin:0 0 18px}
+  .flood-dot{width:26px;height:26px;border-radius:7px;border:1px solid var(--line-strong)}
+  .flood-hex{font-family:"Space Grotesk",sans-serif;font-size:13px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
+  #floodBtn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .btn:disabled{opacity:.45;cursor:default}
+  .slider-row input[type="range"]:disabled{opacity:.4;cursor:default}
+  /* labeled stage buttons (Download / Copy Design Link) */
+  .sbtn.sbtn-text{width:auto;padding:0 12px;gap:7px}
+  .sbtn.sbtn-text span{font-family:"Space Grotesk",sans-serif;font-size:12px;font-weight:600;letter-spacing:.01em;white-space:nowrap}
+
   @media (max-width:820px){
     .app{flex-direction:column;height:auto;min-height:100vh}
-    .panel{width:100%;flex:none;border-right:none;border-bottom:1px solid var(--line);max-height:none}
-    .stage{min-height:60vh;padding:28px}
+    /* let the panel's groups flow as direct items so the design grid can sit
+       between "Paint Your Tiles" and the rest of the panels */
+    .panel{display:contents}
+    .brand,.tagline{order:0;padding:0 20px}
+    .brand{margin-top:20px}
+    .tagline{margin-bottom:18px}
+    .group{order:3;margin:0 20px 22px}
+    .g-paint{order:1;margin-bottom:24px}
+    .stage{order:2;min-height:64vh;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+    .design-canvas{padding:46px 34px 34px}
+    .ref-pane{padding:24px}
+    .design-toolbar{padding:12px 12px 12px}
   }
 </style>
 
@@ -215,184 +369,191 @@
       <svg class="mark" viewBox="0 0 18 20" aria-hidden="true"><polygon points="9,0 18,5 18,15 9,20 0,15 0,5" fill="none" stroke="#1b1b19" stroke-width="1.5"/></svg>
       <h1>Hexagon Tile Studio</h1>
     </div>
-    <p class="tagline">Paint a mosaic, tile by tile.</p>
+    <p class="tagline">Paint a tile pattern.</p>
 
-    <!-- Grid + pattern repetition -->
-    <div class="group boxed">
-      <div class="label big">Customize your tile grid and pattern repetition settings <span class="count" id="totalCount">—</span></div>
-      <div class="orient-row" role="group" aria-label="Hexagon orientation">
-        <button type="button" class="orient-btn" id="orientFlat" aria-pressed="true" title="Flat-top hexagons"><span id="icFlat"></span>Flat top</button>
-        <button type="button" class="orient-btn" id="orientPointy" aria-pressed="false" title="Pointy-top hexagons"><span id="icPointy"></span>Pointy top</button>
-      </div>
-      <div class="slider-row"><span class="name">Columns</span><input type="range" id="cols" min="2" max="40" value="12" aria-label="Number of columns"><span class="val" id="colsVal">12</span></div>
-      <div class="slider-row"><span class="name">Rows</span><input type="range" id="rows" min="2" max="30" value="8" aria-label="Number of rows"><span class="val" id="rowsVal">8</span></div>
-
-      <div class="select-row">
-        <span class="cap">Repeat style</span>
-        <select id="repeatStyle" aria-label="Repeat style">
-          <option value="block">Block grid</option>
-          <option value="halfdrop">Half-drop</option>
-          <option value="brick">Brick</option>
-          <option value="mirror">Mirror (left-right, repeat down)</option>
-        </select>
-      </div>
-
-      <div class="toggle-row" style="margin-top:14px">
-        <span class="name">Show repeating pattern</span>
-        <label class="switch" title="Tile the design into a repeating pattern"><input type="checkbox" id="repeatToggle"><span class="track"></span><span class="knob"></span></label>
-      </div>
-
-      <div class="count-row">
-        <label><span class="cap">Horizontal</span><input type="number" id="repeatX" list="repeatCounts" min="1" max="100" value="3" aria-label="Horizontal repeats"></label>
-        <label><span class="cap">Vertical</span><input type="number" id="repeatY" list="repeatCounts" min="1" max="100" value="3" aria-label="Vertical repeats"></label>
-      </div>
-      <datalist id="repeatCounts"></datalist>
-
-      <div class="toggle-row disabled" id="patternOutlineRow" style="margin-top:14px">
-        <span class="name">Show pattern outlines</span>
-        <label class="switch" title="Outline each pattern set"><input type="checkbox" id="patternOutlineToggle" checked disabled><span class="track"></span><span class="knob"></span></label>
-      </div>
-
-      <div class="popnote" id="constraintNote" hidden></div>
-    </div>
-
-    <!-- Customize Your Color Palette -->
-    <div class="group">
+    <!-- 1. Color Palette -->
+    <div class="group g-paint">
       <div class="boxed customize-box">
-        <button class="label big collapsible" id="colorToggle" aria-expanded="false" aria-controls="colorBody">
-          Customize Your Color Palette
+        <button class="label big collapsible" id="paintHdr" aria-expanded="true" aria-controls="paintBody">
+          Color Palette
           <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
         </button>
+        <div class="collapse-body" id="paintBody">
+          <p class="panel-sub">Tap a color to select it. On a swatch, tap the swap icon to replace that color everywhere in your design, or the × to remove it.</p>
+          <div class="palette" id="palette"></div>
 
-        <!-- palette squares: always visible, right under the heading -->
-        <div class="palette" id="palette"></div>
+          <!-- color-choosing options, opened by the + in the palette or a swatch's swap icon -->
+          <div class="collapse-body" id="colorBody" hidden>
+            <div class="pop-head"><span id="colorPopTitle">Add a color</span><button type="button" class="pop-close" id="colorPopClose" aria-label="Close">&times;</button></div>
 
-        <!-- color tools: shown when expanded, under the palette squares -->
-        <div class="collapse-body" id="colorBody" hidden>
+            <div class="picker">
+              <div class="sv" id="sv" aria-label="Saturation and brightness"><div class="sv-handle" id="svHandle"></div></div>
+              <div class="hue" id="hue" aria-label="Hue"><div class="hue-handle" id="hueHandle"></div></div>
+            </div>
+            <div class="rgb-nums">
+              <label><b>R</b><input type="number" id="cr" min="0" max="255" value="0" aria-label="Red 0 to 255"></label>
+              <label><b>G</b><input type="number" id="cg" min="0" max="255" value="0" aria-label="Green 0 to 255"></label>
+              <label><b>B</b><input type="number" id="cb" min="0" max="255" value="0" aria-label="Blue 0 to 255"></label>
+            </div>
 
-        <div class="replace-banner" id="replaceBanner" hidden>
-          <span class="chip" id="rbFrom"></span>
-          <svg class="arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          <span class="chip" id="rbTo"></span>
-          <span class="rb-text">Mix or sample a new color, then apply.</span>
-          <button id="rbApply" type="button">Apply</button>
-          <button id="rbCancel" type="button">Cancel</button>
-        </div>
+            <div class="pop-foot">
+              <button class="eyedrop-mini" id="eyedropBtn" title="Sample a color from anywhere on screen" aria-label="Sample a color from screen">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m2 22 1-1h3l9-9"/><path d="M3 21v-3l9-9"/><path d="m15 6 3.4-3.4a2.1 2.1 0 0 1 3 3L18 9l.4.4a2.1 2.1 0 0 1 0 3 2.1 2.1 0 0 1-3 0l-3.8-3.8a2.1 2.1 0 0 1 0-3 2.1 2.1 0 0 1 3 0Z"/></svg>
+              </button>
+              <div class="pop-chosen" id="bigSwatch" aria-hidden="true"></div>
+              <button class="btn dark addColorBtn" id="addColorBtn"><span id="addColorLabel">Add color</span></button>
+            </div>
 
-        <!-- Color Slider -->
-        <div class="sub">
-          <div class="sublabel">Color Slider</div>
-          <div class="picker">
-            <div class="sv" id="sv" aria-label="Saturation and brightness"><div class="sv-handle" id="svHandle"></div></div>
-            <div class="hue" id="hue" aria-label="Hue"><div class="hue-handle" id="hueHandle"></div></div>
+            <input type="text" id="hexInput" value="#000000" maxlength="7" spellcheck="false" aria-label="Hex color value" hidden>
+            <input type="color" id="nativePick" value="#000000" aria-label="System color picker" hidden>
           </div>
-          <div class="current">
-            <div class="swatch-lg" id="bigSwatch"></div>
-            <div class="meta">
-              <div class="hex-field">
-                <span>HEX</span>
-                <input type="text" class="hex" id="hexInput" value="#000000" maxlength="7" spellcheck="false" aria-label="Hex color value">
-                <label class="native-pick" title="Open system color picker">
-                  <input type="color" id="nativePick" value="#000000" aria-label="System color picker">
-                  <span class="face" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r="1"/><circle cx="17.5" cy="10.5" r="1"/><circle cx="8.5" cy="7.5" r="1"/><circle cx="6.5" cy="12.5" r="1"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.9 0 1.5-.7 1.5-1.5 0-.4-.2-.8-.4-1-.2-.3-.4-.6-.4-1 0-.8.7-1.5 1.5-1.5H16c3.3 0 6-2.7 6-6 0-4.9-4.5-9-10-9z"/></svg></span>
-                </label>
-              </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Show Repeating Pattern -->
+    <div class="group g-repeat">
+      <div class="boxed customize-box">
+        <div class="switch-head">
+          <span class="label big" style="margin:0">Show repeating pattern</span>
+          <label class="switch" title="Tile the design into a repeating pattern"><input type="checkbox" id="repeatToggle"><span class="track"></span><span class="knob"></span></label>
+        </div>
+        <div class="switch-body" id="repeatBody" hidden>
+          <div class="slider-row"><span class="name">Across</span><input type="range" id="repeatX" min="2" max="6" value="3" aria-label="Horizontal repeats"><span class="val" id="repeatXVal">3</span></div>
+          <div class="slider-row"><span class="name">Down</span><input type="range" id="repeatY" min="2" max="6" value="3" aria-label="Vertical repeats"><span class="val" id="repeatYVal">3</span></div>
+          <div class="toggle-row" id="patternOutlineRow" style="margin-top:4px">
+            <span class="name">Show pattern outlines</span>
+            <label class="switch" title="Outline each pattern set"><input type="checkbox" id="patternOutlineToggle" checked><span class="track"></span><span class="knob"></span></label>
+          </div>
+          <div class="popnote" id="constraintNote" hidden></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Add tile border area -->
+    <div class="group">
+      <div class="boxed customize-box">
+        <button class="label big collapsible" id="borderHdr" aria-expanded="false" aria-controls="borderBody">
+          Add tile border area
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+        <div class="collapse-body" id="borderBody" hidden>
+          <p class="panel-sub lock-warn" id="borderLockMsg"><svg class="warn-tri" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18.1A2 2 0 0 0 3.5 21h17a2 2 0 0 0 1.7-2.9L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg><span>Turn the repeat pattern on to use the border area.</span></p>
+          <div class="slider-row"><span class="name">Border size</span><input type="range" id="borderSize" min="0" max="30" step="2" value="0" aria-label="Border size in tiles"><span class="val" id="borderSizeVal">0</span></div>
+          <div class="sub" style="margin-top:10px">
+            <div class="tool-grid" role="group" aria-label="Border fill">
+              <button class="tool-cell" id="floodBtn" title="Flood the whole border area with one color">
+                <span class="tool-sq"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 11-8-8-8.6 8.6a2 2 0 0 0 0 2.8l5.2 5.2c.8.8 2 .8 2.8 0L19 11Z"/><path d="m5 2 5 5"/><path d="M2 13h15"/><path d="M22 20a2 2 0 1 1-4 0c0-1.6 1.7-2.4 2-4 .3 1.6 2 2.4 2 4Z"/></svg></span>
+                <span class="tool-cap">Add Background Color</span>
+              </button>
             </div>
           </div>
-          <div class="rgb-nums">
-            <label><b>R</b><input type="number" id="cr" min="0" max="255" value="0" aria-label="Red 0 to 255"></label>
-            <label><b>G</b><input type="number" id="cg" min="0" max="255" value="0" aria-label="Green 0 to 255"></label>
-            <label><b>B</b><input type="number" id="cb" min="0" max="255" value="0" aria-label="Blue 0 to 255"></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. Tile Grid Settings -->
+    <div class="group">
+      <div class="boxed customize-box">
+        <button class="label big collapsible" id="gridHdr" aria-expanded="false" aria-controls="gridBody">
+          Tile Grid Settings <span class="count" id="totalCount">—</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+        <div class="collapse-body" id="gridBody" hidden>
+          <div class="orient-row" role="group" aria-label="Hexagon orientation">
+            <div class="orient-opt">
+              <button type="button" class="orient-btn" id="orientFlat" aria-pressed="false" title="Flat-top hexagons"><span id="icFlat"></span></button>
+              <span class="orient-label">Flat tops up</span>
+            </div>
+            <div class="orient-opt">
+              <button type="button" class="orient-btn" id="orientPointy" aria-pressed="true" title="Pointy-top hexagons"><span id="icPointy"></span></button>
+              <span class="orient-label">Pointy tops up</span>
+            </div>
           </div>
+          <div class="outline-box" style="margin-top:18px">
+            <span class="name">Grout color</span>
+            <label class="outline-pick" title="Grout color">
+              <input type="color" id="outlinePick" value="#8a8a8a">
+              <svg class="hex-face" viewBox="0 0 40 36" aria-hidden="true"><polygon id="outlineHexFace" points="36,18 28,31.86 12,31.86 4,18 12,4.14 28,4.14" fill="#ffffff" stroke="#8a8a8a" stroke-width="3" stroke-linejoin="round"/></svg>
+            </label>
+          </div>
+          <div class="popnote" id="constraintNote2" hidden></div>
         </div>
-
-        <!-- Sample From Screen -->
-        <div class="sub">
-          <div class="sublabel">Sample From Screen</div>
-          <button class="btn full" id="eyedropBtn" title="Sample a color from anywhere on screen">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m2 22 1-1h3l9-9"/><path d="M3 21v-3l9-9"/><path d="m15 6 3.4-3.4a2.1 2.1 0 0 1 3 3L18 9l.4.4a2.1 2.1 0 0 1 0 3 2.1 2.1 0 0 1-3 0l-3.8-3.8a2.1 2.1 0 0 1 0-3 2.1 2.1 0 0 1 3 0Z"/></svg>
-            Pick from screen
-          </button>
-        </div>
-
-        <!-- Sample from Image -->
-        <div class="sub">
-          <div class="sublabel">Sample from Image</div>
-          <button class="btn full" id="uploadBtn" style="margin-bottom:10px">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5-5 5 5"/><path d="M12 5v12"/></svg>
-            Upload images
-          </button>
-          <input type="file" id="imgInput" accept="image/*" multiple hidden>
-          <div class="images-list" id="imagesList"></div>
-        </div>
-
-        <button class="btn dark addColorBtn full" id="addColorBtn">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
-          Add color
-        </button>
-
-      </div>
-      </div>
-    </div>
-
-    <!-- Tools -->
-    <div class="group boxed">
-      <div class="cap-label">Tools</div>
-      <div class="tool-grid" role="group" aria-label="Tools">
-        <button class="tool-cell on" id="paintTool" aria-pressed="true">
-          <span class="tool-sq"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9.06 11.9 8.07-8.06a2.85 2.85 0 1 1 4.03 4.03l-8.06 8.08"/><path d="M7.07 14.94c-1.66 0-3 1.35-3 3.02 0 1.33-2.5 1.52-2 2.02 1.08 1.1 2.49 2.02 4 2.02 2.2 0 4-1.8 4-4.04a3.01 3.01 0 0 0-3-3.02z"/></svg></span>
-          <span class="tool-cap">Paint</span>
-        </button>
-        <button class="tool-cell" id="eraseTool" aria-pressed="false">
-          <span class="tool-sq"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20H7L3 16a2 2 0 0 1 0-3l9-9 7 7-7 7"/></svg></span>
-          <span class="tool-cap">Erase</span>
-        </button>
-        <button class="tool-cell" id="clearBtn">
-          <span class="tool-sq"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg></span>
-          <span class="tool-cap">Clear all</span>
-        </button>
-        <button class="tool-cell" id="exportBtn">
-          <span class="tool-sq"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14"/></svg></span>
-          <span class="tool-cap">Export</span>
-        </button>
-      </div>
-      <p class="hint">Click and drag across tiles to paint. Start on a tile that already has the selected color to clear instead — then drag to wipe a whole region.</p>
-    </div>
-
-    <!-- Outline color -->
-    <div class="group boxed">
-      <div class="cap-label">Outline Color</div>
-      <div class="outline-box">
-        <span class="name">Tile outline</span>
-        <label class="outline-pick" title="Outline color">
-          <input type="color" id="outlinePick" value="#8a8a8a">
-          <svg class="hex-face" viewBox="0 0 40 36" aria-hidden="true"><polygon id="outlineHexFace" points="36,18 28,31.86 12,31.86 4,18 12,4.14 28,4.14" fill="#ffffff" stroke="#8a8a8a" stroke-width="3" stroke-linejoin="round"/></svg>
-        </label>
-      </div>
-    </div>
-
-    <!-- Settings -->
-    <div class="group boxed">
-      <div class="cap-label">Settings</div>
-      <div class="toggle-row">
-        <span class="name">Show tile outlines</span>
-        <label class="switch" title="Show or hide tile outlines"><input type="checkbox" id="gridToggle" checked><span class="track"></span><span class="knob"></span></label>
-      </div>
-      <div class="toggle-row">
-        <span class="name">Sound effects</span>
-        <label class="switch" title="Play a sound when painting tiles"><input type="checkbox" id="soundToggle" checked><span class="track"></span><span class="knob"></span></label>
       </div>
     </div>
   </aside>
 
   <main class="stage">
-    <div class="canvas-wrap" id="canvasWrap"><svg class="grid" id="grid" xmlns="http://www.w3.org/2000/svg" aria-label="Hexagon tile canvas"></svg></div>
-    <div class="repeat-wrap" id="repeatWrap" aria-label="Repeating pattern preview"></div>
-    <div class="stage-tag" id="stageTag">12 × 8</div>
+    <div class="stage-tabs" role="tablist" aria-label="Workspace">
+      <button class="stage-tab on" id="tabDesign" role="tab" aria-selected="true">11×12 Tile Grid</button>
+      <button class="stage-tab" id="tabRef" role="tab" aria-selected="false">Reference image</button>
+    </div>
+    <div class="stage-pane design-pane" id="designPane">
+      <div class="design-toolbar">
+        <div class="tool-group" role="group" aria-label="Painting tools">
+          <button class="stool on" id="paintTool" aria-pressed="true" title="Paint"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9.06 11.9 8.07-8.06a2.85 2.85 0 1 1 4.03 4.03l-8.06 8.08"/><path d="M7.07 14.94c-1.66 0-3 1.35-3 3.02 0 1.33-2.5 1.52-2 2.02 1.08 1.1 2.49 2.02 4 2.02 2.2 0 4-1.8 4-4.04a3.01 3.01 0 0 0-3-3.02z"/></svg></span><span class="lbl">Paint</span></button>
+          <button class="stool" id="eraseTool" aria-pressed="false" title="Erase"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20H7L3 16a2 2 0 0 1 0-3l9-9 7 7-7 7"/></svg></span><span class="lbl">Erase</span></button>
+          <button class="stool" id="clearBtn" title="Clear all"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg></span><span class="lbl">Clear all</span></button>
+        </div>
+        <span class="tool-sep" aria-hidden="true"></span>
+        <div class="tool-group" role="group" aria-label="Share">
+          <button class="stool" id="exportBtn" title="Download PNG"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14"/></svg></span><span class="lbl">Download</span></button>
+          <button class="stool" id="shareBtn" title="Copy a link to this design"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7.07 0l-3 3a5 5 0 0 0 7.07 7.07l1.5-1.5"/></svg></span><span class="lbl">Copy link</span></button>
+        </div>
+        <span class="tool-sep" aria-hidden="true"></span>
+        <div class="tool-group" role="group" aria-label="History">
+          <button class="stool" id="undoBtn" title="Undo (Ctrl/Cmd+Z)" disabled><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-2"/></svg></span><span class="lbl">Undo</span></button>
+          <button class="stool" id="redoBtn" title="Redo (Ctrl/Cmd+Shift+Z)" disabled><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 14 5-5-5-5"/><path d="M20 9H9a5 5 0 0 0 0 10h2"/></svg></span><span class="lbl">Redo</span></button>
+        </div>
+      </div>
+      <div class="design-canvas" id="designCanvas">
+        <div class="canvas-wrap" id="canvasWrap"><svg class="grid" id="grid" xmlns="http://www.w3.org/2000/svg" aria-label="Hexagon tile canvas"></svg></div>
+        <div class="repeat-wrap" id="repeatWrap" aria-label="Repeating pattern preview"></div>
+        <div class="copy-toast" id="shareCap" hidden>Link copied</div>
+        <div class="edge-handle eh-x" id="ehLeft"   title="Drag to add or remove columns on the left"><span class="grip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M14 7l-5 5 5 5M10 7l-5 5 5 5"/></svg></span></div>
+        <div class="edge-handle eh-x" id="ehRight"  title="Drag to add or remove columns on the right"><span class="grip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M10 7l5 5-5 5M14 7l5 5-5 5"/></svg></span></div>
+        <div class="edge-handle eh-y" id="ehTop"    title="Drag to add or remove rows on the top"><span class="grip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 14l5-5 5 5M7 10l5-5 5 5"/></svg></span></div>
+        <div class="edge-handle eh-y" id="ehBottom" title="Drag to add or remove rows on the bottom"><span class="grip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10l5 5 5-5M7 14l5 5 5-5"/></svg></span></div>
+        <div class="edge-badge" id="edgeBadge" hidden></div>
+      </div>
+    </div>
+    <div class="stage-pane ref-pane" id="refPane" hidden>
+      <div class="ref-inner">
+        <button class="btn" id="uploadBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5-5 5 5"/><path d="M12 5v12"/></svg>
+          Upload images
+        </button>
+        <input type="file" id="imgInput" accept="image/*" multiple hidden>
+        <div class="images-list" id="imagesList"></div>
+      </div>
+    </div>
   </main>
+
+  <div class="modal-scrim" id="clearConfirm" hidden>
+    <div class="modal" role="alertdialog" aria-labelledby="clearConfirmTitle" aria-describedby="clearConfirmDesc">
+      <p class="modal-title" id="clearConfirmTitle">Are you sure you want to clear the design?</p>
+      <p class="modal-sub" id="clearConfirmDesc">Use the undo button if you change your mind.</p>
+      <div class="modal-actions">
+        <button class="btn" id="clearCancel">Cancel</button>
+        <button class="btn dark" id="clearYes">Clear all</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-scrim" id="pickModal" hidden>
+    <div class="modal" role="dialog" aria-labelledby="pickTitle">
+      <p class="modal-title" id="pickTitle">Choose a color</p>
+      <div class="pick-grid" id="pickGrid"></div>
+      <div class="modal-actions">
+        <button class="btn" id="pickCancel">Cancel</button>
+        <button class="btn dark" id="pickApply" disabled>Apply</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="loupe" id="loupe"><span class="dot" id="loupeDot"></span><span id="loupeHex"></span></div>
+<div class="color-confirm" id="colorConfirm"><span class="dot" id="ccDot"></span><span class="cc-hex" id="ccHex"></span><span class="cc-q">Add color?</span><button type="button" id="ccAdd">Add</button><button type="button" id="ccCancel">Cancel</button></div>
 
 <script>
 (function(){
@@ -405,12 +566,13 @@
   var DEFAULT_FILL = getCSS('--tile-default') || '#ecebe7';
 
   var state = {
-    cols:12, rows:8, orient:'flat',
+    cols:11, rows:12, orient:'pointy', colAnchor:'right', rowAnchor:'bottom',
     color:'#000000', hue:0, sat:0, val:0,
     palette:['#FFFFFF','#000000'],
     tool:'paint', outline:'#8a8a8a', showOutline:true,
     repeat:false, repeatX:3, repeatY:3, repeatStyle:'block', showPatternAreas:true,
-    swapFrom:null,
+    swapFrom:'#000000', swapTo:null, swapTarget:'new',
+    borderSize:0, borderFills:{}, borderBg:null,
     fills:{}
   };
 
@@ -462,7 +624,7 @@
     if(src!=='native') $('nativePick').value = hex.toLowerCase();
     if(src!=='rgb'){ $('cr').value=rgb.r; $('cg').value=rgb.g; $('cb').value=rgb.b; }
     refreshPaletteSelection();
-    var rbTo=$('rbTo'); if(rbTo) rbTo.style.background=state.color;
+    if(typeof refreshBrushCursor==='function') refreshBrushCursor();
   }
 
   /* ---------- picker drag ---------- */
@@ -493,60 +655,76 @@
 
   /* ---------- palette ---------- */
   var palette=$('palette');
-  var REP_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11a8 8 0 0 1 13.5-5.5L20 8"/><path d="M20 4v4h-4"/><path d="M21 13a8 8 0 0 1-13.5 5.5L4 16"/><path d="M4 20v-4h4"/></svg>';
+  var PLUS_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>';
+  var SWAP_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 4v5h-5"/></svg>';
   function renderPalette(){
     palette.innerHTML='';
-    if(state.palette.length===0){
-      var e=document.createElement('div'); e.className='empty';
-      e.textContent='No saved colors yet. Mix a color above and tap Add.';
-      palette.appendChild(e); return;
-    }
     state.palette.forEach(function(col,i){
       var s=document.createElement('button');
       s.className='pswatch'+(col.toUpperCase()===state.color.toUpperCase()?' sel':'');
-      s.style.background=col; s.dataset.color=col; s.title=col+' — click to use';
-      s.setAttribute('aria-label','Use color '+col);
-      s.addEventListener('click',function(ev){ if(ev.target.closest('.x')||ev.target.closest('.rep')) return; setActiveColor(col); });
-      var rep=document.createElement('button'); rep.className='rep'; rep.innerHTML=REP_ICON;
-      rep.title='Replace this color everywhere in the design'; rep.setAttribute('aria-label','Replace '+col);
-      rep.addEventListener('click',function(ev){ ev.stopPropagation(); enterReplace(col); });
+      s.style.background=col; s.dataset.color=col; s.title=col;
+      s.setAttribute('aria-label','Color '+col);
+      s.addEventListener('click',function(ev){ if(ev.target.closest('.x')||ev.target.closest('.swp')) return; setActiveColor(col); });
+      var sw=document.createElement('button'); sw.className='swp'; sw.innerHTML=SWAP_ICON;
+      sw.title='Swap this color for another'; sw.setAttribute('aria-label','Swap '+col+' for another color');
+      sw.addEventListener('click',function(ev){ ev.stopPropagation(); openSwapColor(col); });
       var x=document.createElement('button'); x.className='x'; x.textContent='×';
       x.title='Remove from palette'; x.setAttribute('aria-label','Remove '+col+' from palette');
-      x.addEventListener('click',function(ev){ ev.stopPropagation(); state.palette.splice(i,1); if(state.swapFrom && state.swapFrom.toUpperCase()===col.toUpperCase()) exitReplace(); renderPalette(); });
-      s.appendChild(rep); s.appendChild(x); palette.appendChild(s);
+      x.addEventListener('click',function(ev){ ev.stopPropagation(); state.palette.splice(i,1); renderPalette(); });
+      s.appendChild(sw); s.appendChild(x); palette.appendChild(s);
     });
+    var plus=document.createElement('button');
+    plus.className='plus-swatch'+($('colorBody').hidden?'':' on'); plus.innerHTML=PLUS_ICON;
+    plus.title='Add a new color'; plus.setAttribute('aria-label','Add a new color');
+    plus.addEventListener('click',toggleColorTools);
+    palette.appendChild(plus);
   }
   function refreshPaletteSelection(){
     var sw=palette.querySelectorAll('.pswatch');
-    for(var i=0;i<sw.length;i++){
-      sw[i].classList.toggle('sel', (sw[i].dataset.color||'').toUpperCase()===state.color.toUpperCase());
-    }
+    for(var i=0;i<sw.length;i++) sw[i].classList.toggle('sel', (sw[i].dataset.color||'').toUpperCase()===state.color.toUpperCase());
   }
+  /* ---------- colour-choosing tools (popup opened by the + swatch, or a swatch's swap icon) ---------- */
+  var colorPopMode='add', swapFromColor=null;
+  function updateColorPopMode(){
+    var add = colorPopMode!=='swap';
+    var t=$('colorPopTitle'); if(t) t.textContent = add ? 'Add a color' : 'Swap a color';
+    var l=$('addColorLabel'); if(l) l.textContent = add ? 'Add color' : 'Swap color';
+  }
+  function positionColorPop(){
+    var plus=palette.querySelector('.plus-swatch'), cb=$('colorBody');
+    if(!plus) return;
+    var r=plus.getBoundingClientRect(), w=cb.offsetWidth||300, h=cb.offsetHeight||320, gap=8;
+    var left=Math.min(r.left, window.innerWidth-w-10); left=Math.max(10,left);
+    var top=r.bottom+gap;
+    if(top+h>window.innerHeight-10) top=Math.max(10, r.top-gap-h); /* flip above if no room below */
+    if(top+h>window.innerHeight-10) top=Math.max(10, window.innerHeight-h-10);
+    cb.style.left=left+'px'; cb.style.top=top+'px';
+  }
+  function openColorTools(){ colorPopMode='add'; swapFromColor=null; updateColorPopMode(); $('colorBody').hidden=false; renderPalette(); positionColorPop(); }
+  function openSwapColor(col){ colorPopMode='swap'; swapFromColor=col; updateColorPopMode(); setActiveColor(col); $('colorBody').hidden=false; renderPalette(); positionColorPop(); }
+  function closeColorTools(){ $('colorBody').hidden=true; colorPopMode='add'; swapFromColor=null; updateColorPopMode(); renderPalette(); }
+  function toggleColorTools(){ if($('colorBody').hidden) openColorTools(); else closeColorTools(); }
+  document.addEventListener('pointerdown',function(ev){
+    var cb=$('colorBody'); if(cb.hidden) return;
+    if(cb.contains(ev.target)) return;
+    if(ev.target.closest && (ev.target.closest('.plus-swatch')||ev.target.closest('.swp'))) return;
+    closeColorTools();
+  });
+  window.addEventListener('resize',function(){ if(!$('colorBody').hidden) positionColorPop(); if(typeof positionHandles==='function') positionHandles(); });
 
-  /* ---------- replace a color ---------- */
-  /* Click the swap badge on a swatch: open the colour tools seeded with that
-     colour, mix/sample a new one, then Apply to repaint every matching tile. */
-  function openColorTools(){ $('colorToggle').setAttribute('aria-expanded','true'); $('colorBody').hidden=false; }
-  function enterReplace(col){
-    state.swapFrom=col;
-    openColorTools();
-    var b=$('replaceBanner'); b.hidden=false;
-    $('rbFrom').style.background=col;
-    setActiveColor(col); /* seeds the picker + updates rbTo */
-    b.scrollIntoView({block:'nearest'});
-  }
-  function exitReplace(){ state.swapFrom=null; $('replaceBanner').hidden=true; }
-  function applyReplace(){
-    if(!state.swapFrom) return;
-    var from=state.swapFrom, to=state.color, fu=from.toUpperCase();
-    if(fu!==to.toUpperCase()){
-      for(var k in state.fills){ if(state.fills[k].toUpperCase()===fu) setKeyFill(k,to); }
-      /* carry the saved swatch over to the new colour too */
-      var up=state.palette.map(function(x){return x.toUpperCase();}), idx=up.indexOf(fu);
-      if(idx>-1){ if(up.indexOf(to.toUpperCase())===-1) state.palette[idx]=to; else state.palette.splice(idx,1); }
-      renderPalette();
-    }
-    exitReplace();
+  /* ---------- swap one colour across the whole design ---------- */
+  function swapColors(from,to){
+    if(!from || !to) return;
+    var fu=from.toUpperCase(), tu=to.toUpperCase(); if(fu===tu) return;
+    var changed=false;
+    for(var k in state.fills){ if(state.fills[k].toUpperCase()===fu){ setKeyFill(k,to); changed=true; } }
+    for(var bk in state.borderFills){ if(state.borderFills[bk].toUpperCase()===fu){ state.borderFills[bk]=to; changed=true; } }
+    if(state.borderBg && state.borderBg.toUpperCase()===fu){ state.borderBg=to; changed=true; }
+    var up=state.palette.map(function(x){return x.toUpperCase();}), idx=up.indexOf(fu);
+    if(idx>-1){ if(up.indexOf(tu)===-1) state.palette[idx]=to; else state.palette.splice(idx,1); changed=true; }
+    renderPalette();
+    if(state.repeat) buildRepeat();
+    if(changed) commit();
   }
 
   /* ---------- hexagon grid ---------- */
@@ -586,8 +764,9 @@
     grid.setAttribute('width',vw.toFixed(1)); grid.setAttribute('height',vh.toFixed(1));
     grid.innerHTML=''; grid.appendChild(frag);
     $('totalCount').textContent=(cols*rows)+' tiles';
-    $('stageTag').textContent=cols+' × '+rows;
+    $('tabDesign').textContent=cols+'×'+rows+' Tile Grid';
     if(state.repeat) buildRepeat();
+    if(typeof positionHandles==='function') positionHandles();
   }
   function applyOutlines(){
     var p=grid.querySelectorAll('polygon');
@@ -599,7 +778,7 @@
   /* Styles: block / halfdrop / brick / mirror / continuous.
      In repeat mode the preview is editable — every tile carries the base-cell
      key it represents, so painting any copy updates the whole pattern. */
-  var repeatKeyIndex={}, unitOverlayEl=null;
+  var repeatKeyIndex={}, unitOverlayEl=null, repeatBorderKeys=[];
 
   function rgbDist(a,b){ var x=hexToRgb(a),y=hexToRgb(b),dr=x.r-y.r,dg=x.g-y.g,db=x.b-y.b; return Math.sqrt(dr*dr+dg*dg+db*db); }
   function usedColors(){ var s={}; s[DEFAULT_FILL.toUpperCase()]=1; for(var k in state.fills) s[state.fills[k].toUpperCase()]=1; return Object.keys(s); }
@@ -620,7 +799,7 @@
     var cols=state.cols, rows=state.rows, rx=state.repeatX, ry=state.repeatY, style=state.repeatStyle;
     while(cols*rx*rows*ry>12000 && (rx>1||ry>1)){ if(rx>=ry && rx>1) rx--; else if(ry>1) ry--; else rx=Math.max(1,rx-1); }
     var minX=1e9,minY=1e9,maxX=-1e9,maxY=-1e9, frag=document.createDocumentFragment();
-    repeatKeyIndex={};
+    repeatKeyIndex={}; repeatBorderKeys=[];
     var unitHexes={}; /* uid -> array of [cx,cy], to trace the real hex silhouette */
     var HX=hx(), HY=hy();
     function put(cx,cy,key,uid){
@@ -635,10 +814,32 @@
       if(cx-HX<minX)minX=cx-HX; if(cx+HX>maxX)maxX=cx+HX; if(cy-HY<minY)minY=cy-HY; if(cy+HY>maxY)maxY=cy+HY;
       (unitHexes[uid]||(unitHexes[uid]=[])).push([cx,cy]);
     }
+    /* border ring: its own hand-painted tiles, kept in state.borderFills under a
+       'b:' key namespace so they never collide with the repeating design tiles */
+    function putBorder(cx,cy,key){
+      var poly=document.createElementNS(ns,'polygon');
+      poly.setAttribute('points',hexPoints(cx,cy));
+      poly.setAttribute('fill', state.borderFills[key]||state.borderBg||DEFAULT_FILL);
+      poly.setAttribute('stroke', state.showOutline?state.outline:'none');
+      poly.setAttribute('stroke-width','2'); poly.setAttribute('stroke-linejoin','round');
+      poly.setAttribute('data-key',key); poly.setAttribute('data-border','1');
+      frag.appendChild(poly);
+      if(cx-HX<minX)minX=cx-HX; if(cx+HX>maxX)maxX=cx+HX; if(cy-HY<minY)minY=cy-HY; if(cy+HY>maxY)maxY=cy+HY;
+      repeatBorderKeys.push(key);
+    }
     if(style==='block'){
       /* one continuous honeycomb; colours wrap by the tile size, so it always tiles */
       var tc=cols*rx, tr=rows*ry;
-      for(var c=0;c<tc;c++) for(var r=0;r<tr;r++){ var p=cellCenter(c,r); put(p[0],p[1],(c%cols)+':'+(r%rows), Math.floor(c/cols)+'_'+Math.floor(r/rows)); }
+      var N=(state.repeat ? Math.max(0, state.borderSize||0) : 0);
+      var W=tc+2*N, Ht=tr+2*N;
+      for(var C=0;C<W;C++) for(var Rw=0;Rw<Ht;Rw++){
+        var p=cellCenter(C,Rw), cc=C-N, rr=Rw-N;
+        if(cc>=0 && cc<tc && rr>=0 && rr<tr){
+          put(p[0],p[1],(cc%cols)+':'+(rr%rows), Math.floor(cc/cols)+'_'+Math.floor(rr/rows));
+        } else {
+          putBorder(p[0],p[1],'b:'+C+':'+Rw);
+        }
+      }
     } else if(style==='mirror'){
       function tri(n,size){ if(size<2) return 0; var P=2*(size-1), t=((n%P)+P)%P; return t<size?t:P-t; }
       if(isPointy()){
@@ -667,8 +868,8 @@
     svg.appendChild(frag);
     /* pattern-set outlines that hug the hexagon edges (the real repeat unit shape) */
     var og=document.createElementNS(ns,'g');
-    og.setAttribute('fill','none'); og.setAttribute('stroke',overlayColor()); og.setAttribute('stroke-width','3');
-    og.setAttribute('stroke-dasharray','9 6'); og.setAttribute('stroke-linejoin','round'); og.setAttribute('pointer-events','none');
+    og.setAttribute('fill','none'); og.setAttribute('stroke',overlayColor()); og.setAttribute('stroke-width','9');
+    og.setAttribute('stroke-dasharray','14 9'); og.setAttribute('stroke-linejoin','round'); og.setAttribute('pointer-events','none');
     for(var uid in unitHexes){
       var pts=unitOutline(unitHexes[uid]);
       if(!pts.length) continue;
@@ -721,6 +922,7 @@
   function updateRepeatView(){
     if(state.repeat){ buildRepeat(); $('repeatWrap').classList.add('on'); $('canvasWrap').classList.add('hidden'); }
     else { $('repeatWrap').classList.remove('on'); $('canvasWrap').classList.remove('hidden'); }
+    if(typeof positionHandles==='function') positionHandles();
   }
 
   /* ---------- sound ---------- */
@@ -739,18 +941,31 @@
   /* Gesture mode locks on pointerdown: pressing a tile that already holds the
      selected color starts a clear sweep. Works on the single grid and, in
      repeat mode, on the preview — where editing one cell drives every copy. */
-  var painting=false, gestureMode=null;
+  var painting=false, gestureMode=null, strokeChanged=false;
   function setKeyFill(key, color){
     if(color===null) delete state.fills[key]; else state.fills[key]=color;
     var f = color===null ? DEFAULT_FILL : color;
     var gp=grid.querySelector('polygon[data-key="'+key+'"]'); if(gp) gp.setAttribute('fill',f);
     var arr=repeatKeyIndex[key]; if(arr){ for(var i=0;i<arr.length;i++) arr[i].setAttribute('fill',f); }
   }
+  function setBorderFill(el, key, color){
+    if(color===null) delete state.borderFills[key]; else state.borderFills[key]=color;
+    el.setAttribute('fill', color===null ? (state.borderBg||DEFAULT_FILL) : color);
+  }
+  function fillFor(el){
+    var key=el.getAttribute('data-key');
+    return el.getAttribute('data-border')==='1' ? state.borderFills[key] : state.fills[key];
+  }
   function applyMode(el){
     if(!el || el.tagName!=='polygon') return;
     var key=el.getAttribute('data-key'); if(!key) return;
-    if(gestureMode==='paint'){ var prev=state.fills[key]; setKeyFill(key,state.color); if(prev!==state.color) playClink(); }
-    else setKeyFill(key,null);
+    if(el.getAttribute('data-border')==='1'){
+      if(gestureMode==='paint'){ var pv=state.borderFills[key]; if(pv!==state.color){ setBorderFill(el,key,state.color); playClink(); strokeChanged=true; } }
+      else { if(state.borderFills[key]!==undefined){ setBorderFill(el,key,null); strokeChanged=true; } }
+      return;
+    }
+    if(gestureMode==='paint'){ var prev=state.fills[key]; if(prev!==state.color){ setKeyFill(key,state.color); playClink(); strokeChanged=true; } }
+    else { if(state.fills[key]!==undefined){ setKeyFill(key,null); strokeChanged=true; } }
   }
   function pointerTarget(ev){
     var t=ev.target; if(t && t.tagName==='polygon') return t;
@@ -761,13 +976,7 @@
   function baseCursor(){ return state.tool==='paint'?brushCursor:(state.tool==='erase'?eraserCursor:'default'); }
   function cursorForTile(el){
     if(state.tool==='erase') return eraserCursor;
-    if(state.tool==='paint'){
-      if(el && el.tagName==='polygon'){
-        var cur=state.fills[el.getAttribute('data-key')];
-        if(cur && cur.toUpperCase()===state.color.toUpperCase()) return eraserCursor;
-      }
-      return brushCursor;
-    }
+    if(state.tool==='paint') return brushCursor;
     return 'default';
   }
   function setCursor(surface,c){ if(surface.style.cursor!==c) surface.style.cursor=c; }
@@ -776,8 +985,7 @@
       if(!state.tool) return;
       var el=pointerTarget(ev); if(!el || !el.getAttribute('data-key')) return;
       ev.preventDefault(); painting=true;
-      var key=el.getAttribute('data-key'), cur=state.fills[key];
-      gestureMode = (state.tool==='erase') ? 'clear' : ((cur && cur.toUpperCase()===state.color.toUpperCase()) ? 'clear' : 'paint');
+      gestureMode = (state.tool==='erase') ? 'clear' : 'paint';
       try{ surface.setPointerCapture(ev.pointerId); }catch(e){}
       applyMode(el);
       setCursor(surface, gestureMode==='clear'?eraserCursor:brushCursor);
@@ -793,14 +1001,94 @@
     });
     surface.addEventListener('pointerleave',function(){ setCursor(surface, baseCursor()); });
   }
-  function stopPaint(){ painting=false; gestureMode=null; }
+  function stopPaint(){ if(painting && strokeChanged) commit(); painting=false; gestureMode=null; strokeChanged=false; }
   window.addEventListener('pointerup',stopPaint);
   window.addEventListener('pointercancel',stopPaint);
+
+  /* ---------- undo / redo ----------
+     Each finished action (a paint stroke, an edge drag, a size change, a swap,
+     a clear, an orientation flip) snapshots the whole design so it can be
+     stepped back or forward. */
+  var history=[], hi=-1, historyReady=false, restoring=false, HISTORY_MAX=120;
+  function snapDesign(){
+    return { cols:state.cols, rows:state.rows, orient:state.orient,
+      colAnchor:state.colAnchor, rowAnchor:state.rowAnchor, outline:state.outline,
+      repeat:state.repeat, repeatX:state.repeatX, repeatY:state.repeatY, showPatternAreas:state.showPatternAreas,
+      borderSize:state.borderSize, borderBg:state.borderBg,
+      fills:JSON.parse(JSON.stringify(state.fills)), borderFills:JSON.parse(JSON.stringify(state.borderFills)), palette:state.palette.slice() };
+  }
+  function sameSnap(a,b){
+    if(!a||!b) return false;
+    if(a.cols!==b.cols||a.rows!==b.rows||a.orient!==b.orient||a.colAnchor!==b.colAnchor||a.rowAnchor!==b.rowAnchor||
+       a.outline!==b.outline||a.repeat!==b.repeat||a.repeatX!==b.repeatX||a.repeatY!==b.repeatY||a.showPatternAreas!==b.showPatternAreas||a.borderSize!==b.borderSize||a.borderBg!==b.borderBg) return false;
+    var ka=Object.keys(a.fills), kb=Object.keys(b.fills); if(ka.length!==kb.length) return false;
+    for(var i=0;i<ka.length;i++){ if(a.fills[ka[i]]!==b.fills[ka[i]]) return false; }
+    var kc=Object.keys(a.borderFills), kd=Object.keys(b.borderFills); if(kc.length!==kd.length) return false;
+    for(var x=0;x<kc.length;x++){ if(a.borderFills[kc[x]]!==b.borderFills[kc[x]]) return false; }
+    if(a.palette.length!==b.palette.length) return false;
+    for(var j=0;j<a.palette.length;j++){ if(a.palette[j]!==b.palette[j]) return false; }
+    return true;
+  }
+  function commit(){
+    if(!historyReady||restoring) return;
+    var s=snapDesign();
+    if(hi>=0 && sameSnap(history[hi],s)) return;
+    history=history.slice(0,hi+1);
+    history.push(s);
+    if(history.length>HISTORY_MAX){ history.shift(); }
+    hi=history.length-1;
+    updateUndoButtons();
+  }
+  function restoreSnap(s){
+    restoring=true;
+    state.cols=s.cols; state.rows=s.rows; state.orient=s.orient;
+    state.colAnchor=s.colAnchor; state.rowAnchor=s.rowAnchor; state.outline=s.outline;
+    state.repeat=s.repeat; state.repeatX=s.repeatX; state.repeatY=s.repeatY; state.showPatternAreas=s.showPatternAreas;
+    state.borderSize=(s.borderSize!=null?s.borderSize:state.borderSize);
+    state.borderBg=(s.borderBg!==undefined?s.borderBg:state.borderBg);
+    state.fills=JSON.parse(JSON.stringify(s.fills)); state.borderFills=JSON.parse(JSON.stringify(s.borderFills||{})); state.palette=s.palette.slice();
+    syncUI(); renderPalette(); buildGrid(); updateRepeatView();
+    restoring=false; updateUndoButtons();
+  }
+  function undo(){ if(historyReady && hi>0){ hi--; restoreSnap(history[hi]); } }
+  function redo(){ if(historyReady && hi<history.length-1){ hi++; restoreSnap(history[hi]); } }
+  function updateUndoButtons(){
+    var u=$('undoBtn'), r=$('redoBtn');
+    if(u) u.disabled = !(historyReady && hi>0);
+    if(r) r.disabled = !(historyReady && hi<history.length-1);
+  }
+  function initHistory(){ history=[snapDesign()]; hi=0; historyReady=true; updateUndoButtons(); }
+  $('undoBtn').addEventListener('click',undo);
+  $('redoBtn').addEventListener('click',redo);
+  document.addEventListener('keydown',function(e){
+    var t=e.target;
+    if(t && (t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.isContentEditable)) return;
+    var mod=e.metaKey||e.ctrlKey; if(!mod) return;
+    var k=(e.key||'').toLowerCase();
+    if(k==='z' && !e.shiftKey){ e.preventDefault(); undo(); }
+    else if((k==='z' && e.shiftKey) || k==='y'){ e.preventDefault(); redo(); }
+  });
   wirePaint(grid);
   wirePaint($('repeatWrap'));
 
   /* ---------- image sampling ---------- */
   var imagesList=$('imagesList'), loupe=$('loupe'), loupeDot=$('loupeDot'), loupeHex=$('loupeHex');
+  var ccPending=null;
+  function showColorConfirm(hex,x,y){
+    ccPending=hex;
+    $('ccDot').style.background=hex; $('ccHex').textContent=hex;
+    var cc=$('colorConfirm'); cc.style.left=x+'px'; cc.style.top=y+'px'; cc.classList.add('on');
+    loupe.style.display='none';
+  }
+  function hideColorConfirm(){ $('colorConfirm').classList.remove('on'); ccPending=null; }
+  $('ccAdd').addEventListener('click',function(){
+    if(ccPending){ var c=ccPending.toUpperCase();
+      if(state.palette.map(function(x){return x.toUpperCase();}).indexOf(c)===-1) state.palette.push(c);
+      setActiveColor(c); renderPalette();
+    }
+    hideColorConfirm();
+  });
+  $('ccCancel').addEventListener('click',hideColorConfirm);
   function refreshImagesEmpty(){
     if(!imagesList.querySelector('.img-item')){
       imagesList.innerHTML='<div class="img-empty">Upload one or more images, then click anywhere on them to sample a color.</div>';
@@ -829,12 +1117,13 @@
       return rgbToHex(d[0],d[1],d[2]);
     }
     imgEl.addEventListener('pointermove',function(ev){
+      if(ccPending){ loupe.style.display='none'; return; }
       var hex=sample(ev); if(!hex){ loupe.style.display='none'; return; }
       loupeDot.style.background=hex; loupeHex.textContent=hex;
       loupe.style.left=ev.clientX+'px'; loupe.style.top=ev.clientY+'px'; loupe.style.display='flex';
     });
     imgEl.addEventListener('pointerleave',function(){ loupe.style.display='none'; });
-    imgEl.addEventListener('click',function(ev){ var hex=sample(ev); if(hex) setActiveColor(hex); });
+    imgEl.addEventListener('click',function(ev){ var hex=sample(ev); if(hex) showColorConfirm(hex, ev.clientX, ev.clientY); });
     rm.addEventListener('click',function(){ if(item._url) URL.revokeObjectURL(item._url); item.remove(); loupe.style.display='none'; refreshImagesEmpty(); });
     var empty=imagesList.querySelector('.img-empty'); if(empty) empty.remove();
     imagesList.appendChild(item);
@@ -844,27 +1133,136 @@
 
   /* ---------- export ---------- */
   function exportPNG(){
-    var clone=grid.cloneNode(true), vb=grid.getAttribute('viewBox').split(' ');
+    var patSvg = state.repeat ? $('repeatWrap').querySelector('svg') : null;
+    var usingPattern = !!patSvg;
+    var src = usingPattern ? patSvg : grid;
+    var clone=src.cloneNode(true);
+    /* drop the dashed pattern-outline overlay so the export is clean */
+    Array.prototype.forEach.call(clone.querySelectorAll('g[stroke-dasharray]'),function(g){ if(g.parentNode) g.parentNode.removeChild(g); });
+    var vb=src.getAttribute('viewBox').split(' ');
     var w=parseFloat(vb[2]), h=parseFloat(vb[3]), scale=2;
     clone.setAttribute('width',w); clone.setAttribute('height',h);
     var blob=new Blob([new XMLSerializer().serializeToString(clone)],{type:'image/svg+xml;charset=utf-8'});
     var url=URL.createObjectURL(blob), img=new Image();
     img.onload=function(){
-      var cv=document.createElement('canvas'); cv.width=w*scale; cv.height=h*scale;
+      var cv=document.createElement('canvas'); cv.width=Math.max(1,Math.round(w*scale)); cv.height=Math.max(1,Math.round(h*scale));
       var ctx=cv.getContext('2d'); ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,cv.width,cv.height);
       ctx.drawImage(img,0,0,cv.width,cv.height); URL.revokeObjectURL(url);
       cv.toBlob(function(b){ var a=document.createElement('a'); a.href=URL.createObjectURL(b);
-        a.download='tessera-'+state.cols+'x'+state.rows+'.png'; a.click();
+        a.download=(usingPattern?'tessera-pattern-':'tessera-')+state.cols+'x'+state.rows+'.png'; a.click();
         setTimeout(function(){URL.revokeObjectURL(a.href);},1000); },'image/png');
     };
     img.src=url;
   }
 
   /* ---------- wire up ---------- */
-  $('cols').addEventListener('input',function(e){ state.cols=+e.target.value; $('colsVal').textContent=state.cols; buildGrid(); });
-  $('rows').addEventListener('input',function(e){ state.rows=+e.target.value; $('rowsVal').textContent=state.rows; buildGrid(); });
-  $('cols').addEventListener('change',function(){ if(state.repeat) applyConstraint(); });
-  $('rows').addEventListener('change',function(){ if(state.repeat) applyConstraint(); });
+  /* resize the grid keeping the chosen edge fixed: shifting the cell keys means a
+     painted design stays anchored where the user wants and tiles fall off the other side */
+  function resizeCols(n){
+    var d=n-state.cols, nf={};
+    for(var k in state.fills){ var p=k.split(':'), c=+p[0], r=+p[1]; if(state.colAnchor==='left') c+=d; if(c>=0&&c<n) nf[c+':'+r]=state.fills[k]; }
+    state.fills=nf; state.cols=n;
+  }
+  function resizeRows(n){
+    var d=n-state.rows, nf={};
+    for(var k in state.fills){ var p=k.split(':'), c=+p[0], r=+p[1]; if(state.rowAnchor==='top') r+=d; if(r>=0&&r<n) nf[c+':'+r]=state.fills[k]; }
+    state.fills=nf; state.rows=n;
+  }
+
+  /* ---------- graphical edge-drag resize ----------
+     Grab any edge of the grid and pull it out to add tiles on that side, or
+     push it in to remove them. The side you grab is the side that changes, so
+     there's no separate "which edge" choice to make first. */
+  var COLS_MIN=2, COLS_MAX=40, ROWS_MIN=2, ROWS_MAX=30, EDGE_GAP=22, GRIP_HALF=12, EDGE_OUT=EDGE_GAP+GRIP_HALF;
+  var stageEl=document.getElementById('designCanvas');
+  var ehMeta={ehLeft:{axis:'x',side:'left'},ehRight:{axis:'x',side:'right'},ehTop:{axis:'y',side:'top'},ehBottom:{axis:'y',side:'bottom'}};
+  function clampN(v,a,b){ return Math.max(a,Math.min(b,v)); }
+  function gridMetrics(){
+    var vbAttr=grid.getAttribute('viewBox'); if(!vbAttr) return null;
+    var vb=vbAttr.split(' '), vbW=+vb[2], vbH=+vb[3];
+    var rect=grid.getBoundingClientRect();
+    if(!rect.width||!rect.height||!vbW||!vbH) return null;
+    var scale=Math.min(rect.width/vbW, rect.height/vbH), cw=vbW*scale, ch=vbH*scale;
+    var left=rect.left+(rect.width-cw)/2, top=rect.top+(rect.height-ch)/2;
+    return {scale:scale,left:left,top:top,right:left+cw,bottom:top+ch,cx:left+cw/2,cy:top+ch/2,
+            colPx:tileW(1)*scale, rowPx:tileH(1)*scale};
+  }
+  function positionHandles(){
+    var ids=['ehLeft','ehRight','ehTop','ehBottom'];
+    var show = !state.repeat && !$('canvasWrap').classList.contains('hidden');
+    var m = show ? gridMetrics() : null;
+    if(!m){ ids.forEach(function(id){ $(id).classList.remove('show'); }); return; }
+    var s=stageEl.getBoundingClientRect();
+    function place(id,vx,vy){
+      var h=$(id);
+      vx=clampN(vx, s.left+18, s.right-18); vy=clampN(vy, s.top+14, s.bottom-18);
+      h.style.left=(vx-s.left)+'px'; h.style.top=(vy-s.top)+'px'; h.classList.add('show');
+    }
+    place('ehLeft',  m.left-EDGE_OUT, m.cy);
+    place('ehRight', m.right+EDGE_OUT, m.cy);
+    place('ehTop',   m.cx, m.top-EDGE_OUT);
+    place('ehBottom',m.cx, m.bottom+EDGE_OUT);
+  }
+  function syncSizeInputs(){
+    var c=$('cols'); if(c){ c.value=state.cols; $('colsVal').textContent=state.cols; }
+    var r=$('rows'); if(r){ r.value=state.rows; $('rowsVal').textContent=state.rows; }
+  }
+  function showEdgeBadge(id){ $('edgeBadge').hidden=false; updateEdgeBadge(id); }
+  function hideEdgeBadge(){ $('edgeBadge').hidden=true; }
+  function updateEdgeBadge(id){
+    var b=$('edgeBadge'), cfg=ehMeta[id], h=$(id);
+    b.textContent=(cfg.axis==='x')?(state.cols+' columns'):(state.rows+' rows');
+    var hl=parseFloat(h.style.left)||0, ht=parseFloat(h.style.top)||0, ox=0, oy=0;
+    if(cfg.side==='left')ox=40; else if(cfg.side==='right')ox=-40;
+    else if(cfg.side==='top')oy=38; else oy=-38;
+    b.style.left=(hl+ox)+'px'; b.style.top=(ht+oy)+'px';
+  }
+  function startEdgeDrag(id, ev){
+    if(ev.button!=null && ev.button!==0) return;
+    var cfg=ehMeta[id], h=$(id), axis=cfg.axis;
+    ev.preventDefault(); ev.stopPropagation();
+    h.classList.add('dragging');
+    if(cfg.side==='left'||cfg.side==='right'){ state.colAnchor=cfg.side; segOn('colAnchor',state.colAnchor); }
+    else { state.rowAnchor=cfg.side; segOn('rowAnchor',state.rowAnchor); }
+    var outward=(cfg.side==='right'||cfg.side==='bottom')?1:-1;
+    var last=(axis==='x')?ev.clientX:ev.clientY, accum=0;
+    try{ h.setPointerCapture(ev.pointerId); }catch(e){}
+    showEdgeBadge(id);
+    function spacingNow(){ var m=gridMetrics(); if(!m) return 28; var s=(axis==='x')?m.colPx:m.rowPx; return s<6?6:s; }
+    function move(e){
+      var cur=(axis==='x')?e.clientX:e.clientY;
+      accum+=(cur-last)*outward; last=cur;
+      var spacing=spacingNow(), guard=0;
+      while(accum>=spacing && guard<80){
+        if(axis==='x'){ if(state.cols>=COLS_MAX) break; resizeCols(state.cols+1); }
+        else { if(state.rows>=ROWS_MAX) break; resizeRows(state.rows+1); }
+        buildGrid(); accum-=spacing; spacing=spacingNow(); guard++;
+      }
+      while(accum<=-spacing && guard<80){
+        if(axis==='x'){ if(state.cols<=COLS_MIN) break; resizeCols(state.cols-1); }
+        else { if(state.rows<=ROWS_MIN) break; resizeRows(state.rows-1); }
+        buildGrid(); accum+=spacing; spacing=spacingNow(); guard++;
+      }
+      /* don't bank drag past the limits */
+      if(axis==='x'){ if(state.cols>=COLS_MAX&&accum>0)accum=0; if(state.cols<=COLS_MIN&&accum<0)accum=0; }
+      else { if(state.rows>=ROWS_MAX&&accum>0)accum=0; if(state.rows<=ROWS_MIN&&accum<0)accum=0; }
+      positionHandles(); updateEdgeBadge(id); syncSizeInputs();
+    }
+    function up(){
+      h.classList.remove('dragging');
+      try{ h.releasePointerCapture(ev.pointerId); }catch(_){}
+      h.removeEventListener('pointermove',move); h.removeEventListener('pointerup',up); h.removeEventListener('pointercancel',up);
+      hideEdgeBadge();
+      if(state.repeat) applyConstraint();
+      syncSizeInputs();
+      commit();
+    }
+    h.addEventListener('pointermove',move); h.addEventListener('pointerup',up); h.addEventListener('pointercancel',up);
+  }
+  ['ehLeft','ehRight','ehTop','ehBottom'].forEach(function(id){
+    $(id).addEventListener('pointerdown',function(ev){ startEdgeDrag(id,ev); });
+  });
+
 
   $('hexInput').addEventListener('input',function(e){ var c=clampHex(e.target.value); if(c) setActiveColor(c,'hex'); });
   $('hexInput').addEventListener('blur',function(e){ var c=clampHex(e.target.value); setActiveColor(c||state.color,'hex'); e.target.value=state.color; });
@@ -881,30 +1279,36 @@
     if('EyeDropper' in window){
       try{ var ed=new EyeDropper(); var res=await ed.open(); setActiveColor(res.sRGBHex); }catch(e){}
     } else {
-      var b=$('eyedropBtn'), prev=b.innerHTML; b.textContent='Use Chrome / Edge';
-      setTimeout(function(){ b.innerHTML=prev; },1800);
+      var b=$('eyedropBtn'); b.classList.add('unsupported'); b.title='Screen sampling needs Chrome or Edge';
+      setTimeout(function(){ b.classList.remove('unsupported'); },1400);
     }
   });
-  function addCurrentColor(){
-    var c=state.color.toUpperCase();
-    if(state.palette.map(function(x){return x.toUpperCase();}).indexOf(c)===-1) state.palette.push(c);
-    renderPalette();
+  function onColorAction(){
+    if(colorPopMode==='swap'){
+      var from=swapFromColor;
+      colorPopMode='add'; swapFromColor=null; updateColorPopMode();
+      $('colorBody').hidden=true; renderPalette();
+      swapColors(from, state.color);
+    } else {
+      var c=state.color.toUpperCase();
+      if(state.palette.map(function(x){return x.toUpperCase();}).indexOf(c)===-1) state.palette.push(c);
+      closeColorTools();
+    }
   }
-  Array.prototype.forEach.call(document.querySelectorAll('.addColorBtn'),function(b){ b.addEventListener('click',addCurrentColor); });
-  $('rbApply').addEventListener('click',applyReplace);
-  $('rbCancel').addEventListener('click',exitReplace);
+  Array.prototype.forEach.call(document.querySelectorAll('.addColorBtn'),function(b){ b.addEventListener('click',onColorAction); });
+  $('colorPopClose').addEventListener('click',closeColorTools);
 
-  var colorToggle=$('colorToggle'), colorBody=$('colorBody');
-  colorToggle.addEventListener('click',function(){
-    var open=this.getAttribute('aria-expanded')==='true';
-    this.setAttribute('aria-expanded', open?'false':'true');
-    colorBody.hidden=open;
-  });
+  function wireCollapse(hdrId, bodyId){
+    $(hdrId).addEventListener('click',function(){
+      var open=this.getAttribute('aria-expanded')==='true';
+      this.setAttribute('aria-expanded', open?'false':'true');
+      $(bodyId).hidden=open;
+    });
+  }
+  wireCollapse('paintHdr','paintBody');
+  wireCollapse('gridHdr','gridBody');
+  wireCollapse('borderHdr','borderBody');
 
-  $('soundToggle').addEventListener('change',function(e){ soundOn=e.target.checked; });
-
-  /* populate the 1-100 count dropdown (easier to pick on a phone) */
-  (function(){ var dl=$('repeatCounts'); for(var n=1;n<=100;n++){ var o=document.createElement('option'); o.value=n; dl.appendChild(o); } })();
   function clampCount(v){ v=Math.round(+v||1); return Math.min(100,Math.max(1,v)); }
 
   /* keep the grid valid for the chosen repeat style; explain any auto-change */
@@ -912,45 +1316,92 @@
   function showNote(msg){ var n=$('constraintNote'); n.textContent=msg; n.hidden=false; clearTimeout(noteTimer); noteTimer=setTimeout(function(){ n.hidden=true; },7000); }
   function applyConstraint(){
     var c=state.cols, r=state.rows, s=state.repeatStyle, msg=null;
-    if(s==='brick' && !isPointy() && c%4!==0){ var nb=c-(c%4); if(nb<4)nb=4; state.cols=nb; msg='Brick tiles seamlessly only when columns are a multiple of 4, so columns changed from '+c+' to '+nb+'.'; }
-    else if(s==='brick' && isPointy() && r%4!==0){ var nq=r-(r%4); if(nq<4)nq=4; state.rows=nq; msg='Brick tiles seamlessly only when rows are a multiple of 4, so rows changed from '+r+' to '+nq+'.'; }
-    else if(s==='halfdrop' && (c%2)!==(r%2)){ var nr=r>2?r-1:r+1; state.rows=nr; msg='Half-drop needs rows and columns both odd or both even, so rows changed from '+r+' to '+nr+'.'; }
+    if(s==='brick' && !isPointy() && c%4!==0){ var nb=c-(c%4); if(nb<4)nb=4; resizeCols(nb); msg='Brick tiles seamlessly only when columns are a multiple of 4, so columns changed from '+c+' to '+nb+'.'; }
+    else if(s==='brick' && isPointy() && r%4!==0){ var nq=r-(r%4); if(nq<4)nq=4; resizeRows(nq); msg='Brick tiles seamlessly only when rows are a multiple of 4, so rows changed from '+r+' to '+nq+'.'; }
+    else if(s==='halfdrop' && (c%2)!==(r%2)){ var nr=r>2?r-1:r+1; resizeRows(nr); msg='Half-drop needs rows and columns both odd or both even, so rows changed from '+r+' to '+nr+'.'; }
     if(msg){
-      $('cols').value=state.cols; $('colsVal').textContent=state.cols;
-      $('rows').value=state.rows; $('rowsVal').textContent=state.rows;
+      syncSizeInputs();
       buildGrid(); showNote(msg); return true;
     }
     return false;
   }
-  function setPatternToggleEnabled(on){
-    $('patternOutlineToggle').disabled=!on; $('patternOutlineRow').classList.toggle('disabled',!on);
+  function setPatternToggleEnabled(on){ $('repeatBody').hidden=!on; }
+  function updateBorderPanel(){
+    var on=state.repeat;
+    $('borderSize').disabled=!on;
+    $('floodBtn').disabled=!on || (state.borderSize||0)===0;
+    $('borderLockMsg').hidden=on;
   }
 
+  function clampRepeat(v){ v=Math.round(+v||2); return Math.min(6,Math.max(2,v)); }
   $('repeatToggle').addEventListener('change',function(e){
     state.repeat=e.target.checked;
+    if(state.repeat){ state.repeatX=clampRepeat(state.repeatX); state.repeatY=clampRepeat(state.repeatY);
+      $('repeatX').value=state.repeatX; $('repeatXVal').textContent=state.repeatX;
+      $('repeatY').value=state.repeatY; $('repeatYVal').textContent=state.repeatY; }
     setPatternToggleEnabled(state.repeat);
     if(state.repeat) applyConstraint();
+    updateBorderPanel();
     updateRepeatView();
   });
-  $('repeatStyle').addEventListener('change',function(e){
-    state.repeatStyle=e.target.value;
-    if(state.repeat && !applyConstraint()) buildRepeat();
-  });
   $('patternOutlineToggle').addEventListener('change',function(e){ state.showPatternAreas=e.target.checked; refreshOverlay(); });
-  $('repeatX').addEventListener('input',function(e){ state.repeatX=clampCount(e.target.value); if(state.repeat) buildRepeat(); });
-  $('repeatY').addEventListener('input',function(e){ state.repeatY=clampCount(e.target.value); if(state.repeat) buildRepeat(); });
+  $('repeatX').addEventListener('input',function(e){ state.repeatX=clampRepeat(e.target.value); $('repeatXVal').textContent=state.repeatX; if(state.repeat) buildRepeat(); });
+  $('repeatY').addEventListener('input',function(e){ state.repeatY=clampRepeat(e.target.value); $('repeatYVal').textContent=state.repeatY; if(state.repeat) buildRepeat(); });
+  function clampBorder(v){ v=Math.round(+v||0); if(v<0)v=0; if(v>30)v=30; if(v%2!==0) v-=1; return v<0?0:v; }
+  $('borderSize').addEventListener('input',function(e){ state.borderSize=clampBorder(e.target.value); $('borderSizeVal').textContent=state.borderSize; updateBorderPanel(); if(state.repeat) buildRepeat(); });
+  $('borderSize').addEventListener('change',function(){ if(state.repeat) commit(); });
 
   /* tool cursors: brush in Paint, eraser in Erase, default when neither */
   var brushCursor, eraserCursor;
+  function svgCursorURL(inner,hxp,hyp){ var svg="<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24'>"+inner+"</svg>"; return 'url("data:image/svg+xml,'+encodeURIComponent(svg)+'") '+hxp+' '+hyp+', auto'; }
+  function makeBrushCursor(color){
+    var handle='m9.06 11.9 8.07-8.06a2.85 2.85 0 1 1 4.03 4.03l-8.06 8.08';
+    var blob='M7.07 14.94c-1.66 0-3 1.35-3 3.02 0 1.33-2.5 1.52-2 2.02 1.08 1.1 2.49 2.02 4 2.02 2.2 0 4-1.8 4-4.04a3.01 3.01 0 0 0-3-3.02z';
+    var inner=
+      '<path d="'+handle+'" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>'+
+      '<path d="'+blob+'" fill="#fff" stroke="#fff" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>'+
+      '<path d="'+handle+'" fill="none" stroke="#1b1b19" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>'+
+      '<path d="'+blob+'" fill="'+color+'" stroke="#1b1b19" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>';
+    return svgCursorURL(inner,6,24);
+  }
   (function(){
-    function cur(inner,hx,hy){
-      var svg="<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24'>"+inner+"</svg>";
-      return 'url("data:image/svg+xml,'+encodeURIComponent(svg)+'") '+hx+' '+hy+', auto';
-    }
-    var brush='<path d="M18.4 2.6a2 2 0 0 1 3 3L11 16l-4 1 1-4Z" fill="none" stroke="#fff" stroke-width="4.5" stroke-linejoin="round"/><path d="M18.4 2.6a2 2 0 0 1 3 3L11 16l-4 1 1-4Z" fill="#1b1b19" stroke="#1b1b19" stroke-width="1" stroke-linejoin="round"/>';
     var eraser='<path d="M20 20H7L3 16a2 2 0 0 1 0-3l9-9 7 7-7 7" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 20H7L3 16a2 2 0 0 1 0-3l9-9 7 7-7 7" fill="#fff" stroke="#1b1b19" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>';
-    brushCursor=cur(brush,7,20); eraserCursor=cur(eraser,5,18);
+    eraserCursor=svgCursorURL(eraser,5,18);
+    brushCursor=makeBrushCursor('#000000');
   })();
+  function refreshBrushCursor(){ brushCursor=makeBrushCursor(state.color); if(state.tool==='paint'){ setCursor(grid,brushCursor); var rw=$('repeatWrap'); if(rw) setCursor(rw,brushCursor); } }
+
+  /* ---------- reusable palette-picker popup (flood + swap current/new) ---------- */
+  var pickApplyFn=null, pickSelectFn=null, pickCancelFn=null, pickColor=null;
+  function openPalettePicker(title, applyLabel, onApply, opts){
+    opts=opts||{};
+    pickApplyFn=onApply; pickSelectFn=opts.onSelect||null; pickCancelFn=opts.onCancel||null; pickColor=null;
+    $('pickTitle').textContent=title;
+    $('pickApply').textContent=applyLabel||'Apply';
+    $('pickApply').disabled=true;
+    var g=$('pickGrid'); g.innerHTML='';
+    state.palette.forEach(function(col){
+      var b=document.createElement('button'); b.type='button'; b.className='pick-sw'; b.style.background=col; b.title=col;
+      b.addEventListener('click',function(){ pickColor=col; $('pickApply').disabled=false; Array.prototype.forEach.call(g.children,function(x){ x.classList.toggle('sel',x===b); }); if(pickSelectFn) pickSelectFn(col); });
+      g.appendChild(b);
+    });
+    $('pickModal').hidden=false;
+  }
+  function closePalettePicker(){ $('pickModal').hidden=true; pickApplyFn=null; pickSelectFn=null; pickCancelFn=null; pickColor=null; }
+  function cancelPalettePicker(){ var fn=pickCancelFn; closePalettePicker(); if(fn) fn(); }
+  $('pickApply').addEventListener('click',function(){ if(pickColor && pickApplyFn) pickApplyFn(pickColor); closePalettePicker(); });
+  $('pickCancel').addEventListener('click',cancelPalettePicker);
+  $('pickModal').addEventListener('click',function(e){ if(e.target===this) cancelPalettePicker(); });
+
+  /* ---------- border background color (via palette popup) ---------- */
+  function setBorderBg(color){
+    state.borderBg=color;
+    buildRepeat(); commit();
+  }
+  $('floodBtn').addEventListener('click',function(){
+    if(!(state.repeat && (state.borderSize||0)>0)) return;
+    openPalettePicker('Add a background color','Apply',function(col){ setBorderBg(col); });
+  });
   function updateCursor(){ setCursor(grid, baseCursor()); }
   function setTool(tool){
     state.tool=tool;
@@ -963,9 +1414,13 @@
   $('eraseTool').addEventListener('click',function(){ setTool(state.tool==='erase'?null:'erase'); });
 
   $('outlinePick').addEventListener('input',function(e){ state.outline=e.target.value; $('outlineHexFace').setAttribute('stroke',e.target.value); applyOutlines(); });
-  $('gridToggle').addEventListener('change',function(e){ state.showOutline=e.target.checked; applyOutlines(); });
 
-  $('clearBtn').addEventListener('click',function(){ state.fills={}; var p=grid.querySelectorAll('polygon'); for(var i=0;i<p.length;i++) p[i].setAttribute('fill',DEFAULT_FILL); if(state.repeat) buildRepeat(); });
+  function doClear(){ var had=Object.keys(state.fills).length>0; state.fills={}; var p=grid.querySelectorAll('polygon'); for(var i=0;i<p.length;i++) p[i].setAttribute('fill',DEFAULT_FILL); if(state.repeat) buildRepeat(); if(had) commit(); }
+  $('clearBtn').addEventListener('click',function(){ $('clearConfirm').hidden=false; });
+  $('clearCancel').addEventListener('click',function(){ $('clearConfirm').hidden=true; });
+  $('clearYes').addEventListener('click',function(){ $('clearConfirm').hidden=true; doClear(); });
+  $('clearConfirm').addEventListener('click',function(e){ if(e.target===this) this.hidden=true; });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape' && !$('clearConfirm').hidden) $('clearConfirm').hidden=true; });
   $('exportBtn').addEventListener('click',exportPNG);
 
   /* ---------- hexagon orientation ---------- */
@@ -988,18 +1443,103 @@
     $('orientFlat').classList.toggle('on', o==='flat'); $('orientFlat').setAttribute('aria-pressed', o==='flat'?'true':'false');
     $('orientPointy').classList.toggle('on', o==='pointy'); $('orientPointy').setAttribute('aria-pressed', o==='pointy'?'true':'false');
     if(!(state.repeat && applyConstraint())) buildGrid();
+    commit();
   }
   $('icFlat').innerHTML=hexIcon(false);
   $('icPointy').innerHTML=hexIcon(true);
   $('orientFlat').addEventListener('click',function(){ setOrient('flat'); });
   $('orientPointy').addEventListener('click',function(){ setOrient('pointy'); });
 
+  /* ---------- shareable links (whole design encoded in the URL hash) ---------- */
+  var STYLE_CODE={block:'b',halfdrop:'h',brick:'k',mirror:'m'}, STYLE_NAME={b:'block',h:'halfdrop',k:'brick',m:'mirror'};
+  function encodeDesign(){
+    var cols=state.cols, rows=state.rows, used=[], idxOf={}, seq=[];
+    for(var r=0;r<rows;r++) for(var c=0;c<cols;c++){
+      var f=state.fills[c+':'+r], idx=0;
+      if(f){ var u=f.toUpperCase().replace('#',''); if(idxOf[u]===undefined){ idxOf[u]=used.length; used.push(u); } idx=idxOf[u]+1; }
+      seq.push(idx);
+    }
+    var runs=[], i=0;
+    while(i<seq.length){ var v=seq[i], n=1; while(i+n<seq.length && seq[i+n]===v) n++; runs.push(v+'*'+n); i+=n; }
+    return ['1',cols,rows,isPointy()?'p':'f',
+      state.colAnchor==='left'?'l':'r', state.rowAnchor==='top'?'t':'b',
+      state.repeat?'1':'0', state.repeatX, state.repeatY, STYLE_CODE[state.repeatStyle]||'b',
+      state.showPatternAreas?'1':'0', state.showOutline?'1':'0', state.outline.replace('#',''),
+      state.palette.map(function(x){return x.replace('#','');}).join('!'),
+      used.join('!'), runs.join('!')
+    ].join('~');
+  }
+  function decodeDesign(str){
+    try{
+      var f=str.split('~'); if(f[0]!=='1') return false;
+      var cols=+f[1], rows=+f[2]; if(!(cols>=2&&cols<=40&&rows>=2&&rows<=30)) return false;
+      state.cols=cols; state.rows=rows;
+      state.orient=f[3]==='p'?'pointy':'flat';
+      state.colAnchor=f[4]==='l'?'left':'right';
+      state.rowAnchor=f[5]==='t'?'top':'bottom';
+      state.repeat=f[6]==='1';
+      state.repeatX=Math.min(100,Math.max(1,+f[7]||3));
+      state.repeatY=Math.min(100,Math.max(1,+f[8]||3));
+      state.repeatStyle=STYLE_NAME[f[9]]||'block';
+      state.showPatternAreas=f[10]!=='0';
+      state.showOutline=f[11]!=='0';
+      state.outline='#'+(f[12]||'8a8a8a');
+      state.palette=f[13]?f[13].split('!').map(function(x){return '#'+x.toUpperCase();}):[];
+      var used=f[14]?f[14].split('!').map(function(x){return '#'+x.toUpperCase();}):[];
+      var fills={};
+      if(f[15]){ var runs=f[15].split('!'), pos=0;
+        for(var ri=0;ri<runs.length;ri++){ var pr=runs[ri].split('*'), v=+pr[0], n=+pr[1]||0;
+          for(var j=0;j<n;j++){ if(v>0){ var col=used[v-1]; if(col) fills[(pos%cols)+':'+Math.floor(pos/cols)]=col; } pos++; } } }
+      state.fills=fills;
+      return true;
+    }catch(e){ return false; }
+  }
+  function segOn(groupId,val){ var g=$(groupId); if(!g) return; Array.prototype.forEach.call(g.querySelectorAll('button'),function(b){ b.classList.toggle('on', b.dataset.a===val); }); }
+  function syncUI(){
+    syncSizeInputs();
+    $('repeatToggle').checked=state.repeat;
+    $('repeatX').value=state.repeatX; $('repeatXVal').textContent=state.repeatX;
+    $('repeatY').value=state.repeatY; $('repeatYVal').textContent=state.repeatY;
+    $('patternOutlineToggle').checked=state.showPatternAreas; setPatternToggleEnabled(state.repeat);
+    $('borderSize').value=state.borderSize; $('borderSizeVal').textContent=state.borderSize; updateBorderPanel();
+    $('outlineHexFace').setAttribute('stroke',state.outline);
+    var op=$('outlinePick'); if(op) op.value=state.outline;
+    segOn('colAnchor',state.colAnchor); segOn('rowAnchor',state.rowAnchor);
+    $('orientFlat').classList.toggle('on', state.orient==='flat'); $('orientFlat').setAttribute('aria-pressed', state.orient==='flat'?'true':'false');
+    $('orientPointy').classList.toggle('on', state.orient==='pointy'); $('orientPointy').setAttribute('aria-pressed', state.orient==='pointy'?'true':'false');
+  }
+  function shareLink(){
+    var url=location.origin+location.pathname+'#'+encodeURIComponent(encodeDesign());
+    var cap=$('shareCap'), done=function(ok){ cap.textContent=ok?'Link copied':'Copy failed'; cap.hidden=false; clearTimeout(cap._t); cap._t=setTimeout(function(){ cap.hidden=true; },1600); };
+    try{
+      if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(function(){done(true);},function(){ window.prompt('Copy this link:',url); done(true); });
+      else { window.prompt('Copy this link:',url); done(true); }
+    }catch(e){ window.prompt('Copy this link:',url); done(true); }
+  }
+  $('shareBtn').addEventListener('click',shareLink);
+
   /* ---------- init ---------- */
+  if(location.hash.length>1){ decodeDesign(decodeURIComponent(location.hash.slice(1))); }
+  state.showOutline=true;
   setActiveColor(state.color);
   updatePickerUI();
   renderPalette();
   refreshImagesEmpty();
+  syncUI();
   setOrient(state.orient);
+  updateRepeatView();
   updateCursor();
+  /* ---------- stage tabs (design vs reference image) ---------- */
+  function setStageTab(which){
+    var d=(which==='design');
+    $('tabDesign').classList.toggle('on',d); $('tabDesign').setAttribute('aria-selected',d?'true':'false');
+    $('tabRef').classList.toggle('on',!d); $('tabRef').setAttribute('aria-selected',!d?'true':'false');
+    $('designPane').hidden=!d; $('refPane').hidden=d;
+    if(d && typeof positionHandles==='function') positionHandles();
+  }
+  $('tabDesign').addEventListener('click',function(){ setStageTab('design'); });
+  $('tabRef').addEventListener('click',function(){ setStageTab('ref'); });
+
+  initHistory();
 })();
 </script>
