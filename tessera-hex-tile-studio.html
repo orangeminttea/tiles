@@ -845,7 +845,7 @@
         if(cc>=0 && cc<tc && rr>=0 && rr<tr){
           put(p[0],p[1],(cc%cols)+':'+(rr%rows), Math.floor(cc/cols)+'_'+Math.floor(rr/rows), cc+':'+rr);
         } else {
-          putBorder(p[0],p[1],'b:'+C+':'+Rw);
+          putBorder(p[0],p[1],'b:'+cc+':'+rr);
         }
       }
     } else if(style==='mirror'){
