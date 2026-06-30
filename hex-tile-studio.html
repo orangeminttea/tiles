@@ -692,17 +692,12 @@
       s.setAttribute('aria-label','Color '+col+' (double-tap to swap)');
       s.addEventListener('click',function(ev){
         if(ev.target.closest('.x')) return;
-        var isShowingDelete=s.classList.contains('show-delete');
-        if(isShowingDelete){
-          hideAllDeleteIcons();
-          var now=Date.now();
-          if(now-lastTapTime<320 && lastTapColor===col){ lastTapTime=0; lastTapColor=null; openSwapColor(col); }
-          else { lastTapTime=now; lastTapColor=col; setActiveColor(col); if(state.tool!=='paint') setTool('paint'); }
-        } else {
-          hideAllDeleteIcons();
-          s.classList.add('show-delete');
-          swatchShowingDelete=s;
-        }
+        hideAllDeleteIcons();
+        s.classList.add('show-delete');
+        swatchShowingDelete=s;
+        var now=Date.now();
+        if(now-lastTapTime<320 && lastTapColor===col){ lastTapTime=0; lastTapColor=null; openSwapColor(col); }
+        else { lastTapTime=now; lastTapColor=col; setActiveColor(col); if(state.tool!=='paint') setTool('paint'); }
       });
       var x=document.createElement('button'); x.className='x'; x.textContent='×';
       x.title='Remove from palette'; x.setAttribute('aria-label','Remove '+col+' from palette');
