@@ -1,7 +1,7 @@
-<!-- Tessera — Hexagon Tile Studio -->
+<!-- Hex Tile Studio -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Tessera — Hexagon Tile Studio</title>
+<title>Hex Tile Studio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -370,7 +370,7 @@
   <aside class="panel">
     <div class="brand">
       <svg class="mark" viewBox="0 0 18 20" aria-hidden="true"><polygon points="9,0 18,5 18,15 9,20 0,15 0,5" fill="none" stroke="#1b1b19" stroke-width="1.5"/></svg>
-      <h1>Hexagon Tile Studio</h1>
+      <h1>Hex Tile Studio</h1>
     </div>
     <p class="tagline">Paint a tile pattern.</p>
 
@@ -449,6 +449,10 @@
                 <span class="tool-sq"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 11-8-8-8.6 8.6a2 2 0 0 0 0 2.8l5.2 5.2c.8.8 2 .8 2.8 0L19 11Z"/><path d="m5 2 5 5"/><path d="M2 13h15"/><path d="M22 20a2 2 0 1 1-4 0c0-1.6 1.7-2.4 2-4 .3 1.6 2 2.4 2 4Z"/></svg></span>
                 <span class="tool-cap">Add Background Color</span>
               </button>
+              <button class="tool-cell" id="clearBorderBtn" title="Clear the border area">
+                <span class="tool-sq"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg></span>
+                <span class="tool-cap">Clear border</span>
+              </button>
             </div>
           </div>
         </div>
@@ -496,7 +500,7 @@
         <div class="tool-group" role="group" aria-label="Painting tools">
           <button class="stool on" id="paintTool" aria-pressed="true" title="Double-tap for no repeat mode"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9.06 11.9 8.07-8.06a2.85 2.85 0 1 1 4.03 4.03l-8.06 8.08"/><path d="M7.07 14.94c-1.66 0-3 1.35-3 3.02 0 1.33-2.5 1.52-2 2.02 1.08 1.1 2.49 2.02 4 2.02 2.2 0 4-1.8 4-4.04a3.01 3.01 0 0 0-3-3.02z"/></svg></span><span class="lbl">Paint</span></button>
           <button class="stool" id="eraseTool" aria-pressed="false"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20H7L3 16a2 2 0 0 1 0-3l9-9 7 7-7 7"/></svg></span><span class="lbl">Erase</span></button>
-          <button class="stool" id="clearBtn"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg></span><span class="lbl">Clear all</span></button>
+          <button class="stool" id="clearBtn"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg></span><span class="lbl">Clear design</span></button>
         </div>
         <span class="tool-sep" aria-hidden="true"></span>
         <div class="tool-group" role="group" aria-label="Share">
@@ -532,13 +536,24 @@
     </div>
   </main>
 
+  <div class="modal-scrim" id="borderClearConfirm" hidden>
+    <div class="modal" role="alertdialog" aria-labelledby="borderClearTitle" aria-describedby="borderClearDesc">
+      <p class="modal-title" id="borderClearTitle">Are you sure you want to clear the border area?</p>
+      <p class="modal-sub" id="borderClearDesc">Use the undo button if you change your mind.</p>
+      <div class="modal-actions">
+        <button class="btn" id="borderClearCancel">Cancel</button>
+        <button class="btn dark" id="borderClearYes">Clear border</button>
+      </div>
+    </div>
+  </div>
+
   <div class="modal-scrim" id="clearConfirm" hidden>
     <div class="modal" role="alertdialog" aria-labelledby="clearConfirmTitle" aria-describedby="clearConfirmDesc">
       <p class="modal-title" id="clearConfirmTitle">Are you sure you want to clear the design?</p>
       <p class="modal-sub" id="clearConfirmDesc">Use the undo button if you change your mind.</p>
       <div class="modal-actions">
         <button class="btn" id="clearCancel">Cancel</button>
-        <button class="btn dark" id="clearYes">Clear all</button>
+        <button class="btn dark" id="clearYes">Clear design</button>
       </div>
     </div>
   </div>
@@ -1170,7 +1185,7 @@
       var ctx=cv.getContext('2d'); ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,cv.width,cv.height);
       ctx.drawImage(img,0,0,cv.width,cv.height); URL.revokeObjectURL(url);
       cv.toBlob(function(b){ var a=document.createElement('a'); a.href=URL.createObjectURL(b);
-        a.download=(usingPattern?'tessera-pattern-':'tessera-')+state.cols+'x'+state.rows+'.png'; a.click();
+        a.download=(usingPattern?'hex-tile-pattern-':'hex-tile-')+state.cols+'x'+state.rows+'.png'; a.click();
         setTimeout(function(){URL.revokeObjectURL(a.href);},1000); },'image/png');
     };
     img.src=url;
@@ -1351,6 +1366,7 @@
     var on=state.repeat;
     $('borderSize').disabled=!on;
     $('floodBtn').disabled=!on || (state.borderSize||0)===0;
+    $('clearBorderBtn').disabled=!on || (state.borderSize||0)===0;
     $('borderLockMsg').hidden=on;
   }
 
@@ -1450,11 +1466,29 @@
 
   $('outlinePick').addEventListener('input',function(e){ state.outline=e.target.value; $('outlineHexFace').setAttribute('stroke',e.target.value); applyOutlines(); });
 
-  function doClear(){ var had=Object.keys(state.fills).length>0; state.fills={}; var p=grid.querySelectorAll('polygon'); for(var i=0;i<p.length;i++) p[i].setAttribute('fill',DEFAULT_FILL); if(state.repeat) buildRepeat(); if(had) commit(); }
+  function doClear(){
+    var had = Object.keys(state.fills).length>0 || Object.keys(state.borderFills).length>0 || Object.keys(state.patternOverrides).length>0 || !!state.borderBg;
+    state.fills={}; state.borderFills={}; state.patternOverrides={}; state.borderBg=null;
+    var p=grid.querySelectorAll('polygon'); for(var i=0;i<p.length;i++) p[i].setAttribute('fill',DEFAULT_FILL);
+    if(state.repeat) buildRepeat();
+    if(had) commit();
+  }
   $('clearBtn').addEventListener('click',function(){ $('clearConfirm').hidden=false; });
   $('clearCancel').addEventListener('click',function(){ $('clearConfirm').hidden=true; });
   $('clearYes').addEventListener('click',function(){ $('clearConfirm').hidden=true; doClear(); });
   $('clearConfirm').addEventListener('click',function(e){ if(e.target===this) this.hidden=true; });
+
+  function clearBorder(){
+    var had = Object.keys(state.borderFills).length>0 || !!state.borderBg;
+    state.borderFills={}; state.borderBg=null;
+    if(state.repeat) buildRepeat();
+    if(had) commit();
+  }
+  $('clearBorderBtn').addEventListener('click',function(){ if(this.disabled) return; $('borderClearConfirm').hidden=false; });
+  $('borderClearCancel').addEventListener('click',function(){ $('borderClearConfirm').hidden=true; });
+  $('borderClearYes').addEventListener('click',function(){ $('borderClearConfirm').hidden=true; clearBorder(); });
+  $('borderClearConfirm').addEventListener('click',function(e){ if(e.target===this) this.hidden=true; });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape' && !$('borderClearConfirm').hidden) $('borderClearConfirm').hidden=true; });
   document.addEventListener('keydown',function(e){ if(e.key==='Escape' && !$('clearConfirm').hidden) $('clearConfirm').hidden=true; });
   $('exportBtn').addEventListener('click',exportPNG);
 
