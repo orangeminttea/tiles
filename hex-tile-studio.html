@@ -162,6 +162,7 @@
   }
   .pswatch:focus-visible .x{display:flex}
   .pswatch:active .x{display:flex}
+  .pswatch.show-delete .x{display:flex}
   .plus-swatch{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border:1px dashed var(--line-strong);border-radius:8px;background:transparent;color:var(--muted);cursor:pointer;padding:0}
   .plus-swatch svg{width:18px;height:18px}
   .plus-swatch:hover{border-color:var(--ink);color:var(--ink)}
@@ -678,7 +679,10 @@
   /* ---------- palette ---------- */
   var palette=$('palette');
   var PLUS_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>';
-  var lastTapTime=0, lastTapColor=null;
+  var lastTapTime=0, lastTapColor=null, swatchShowingDelete=null;
+  function hideAllDeleteIcons(){
+    if(swatchShowingDelete){ swatchShowingDelete.classList.remove('show-delete'); swatchShowingDelete=null; }
+  }
   function renderPalette(){
     palette.innerHTML='';
     state.palette.forEach(function(col,i){
@@ -688,9 +692,17 @@
       s.setAttribute('aria-label','Color '+col+' (double-tap to swap)');
       s.addEventListener('click',function(ev){
         if(ev.target.closest('.x')) return;
-        var now=Date.now();
-        if(now-lastTapTime<320 && lastTapColor===col){ lastTapTime=0; lastTapColor=null; openSwapColor(col); }
-        else { lastTapTime=now; lastTapColor=col; setActiveColor(col); if(state.tool!=='paint') setTool('paint'); }
+        var isShowingDelete=s.classList.contains('show-delete');
+        if(isShowingDelete){
+          hideAllDeleteIcons();
+          var now=Date.now();
+          if(now-lastTapTime<320 && lastTapColor===col){ lastTapTime=0; lastTapColor=null; openSwapColor(col); }
+          else { lastTapTime=now; lastTapColor=col; setActiveColor(col); if(state.tool!=='paint') setTool('paint'); }
+        } else {
+          hideAllDeleteIcons();
+          s.classList.add('show-delete');
+          swatchShowingDelete=s;
+        }
       });
       var x=document.createElement('button'); x.className='x'; x.textContent='×';
       x.title='Remove from palette'; x.setAttribute('aria-label','Remove '+col+' from palette');
@@ -703,6 +715,9 @@
     plus.addEventListener('click',toggleColorTools);
     palette.appendChild(plus);
   }
+  document.addEventListener('click',function(ev){
+    if(!palette.contains(ev.target)){ hideAllDeleteIcons(); }
+  });
   function refreshPaletteSelection(){
     var sw=palette.querySelectorAll('.pswatch');
     for(var i=0;i<sw.length;i++) sw[i].classList.toggle('sel', (sw[i].dataset.color||'').toUpperCase()===state.color.toUpperCase());
