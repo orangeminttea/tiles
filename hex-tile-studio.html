@@ -708,6 +708,7 @@
   }
   
   function handleSwatchClick(ev, col, swatch){
+    if(window.eyedropperActive) return;
     if(ev.target.closest('.x')) return;
     hideAllDeleteIcons();
     swatch.classList.add('show-delete');
@@ -1080,6 +1081,7 @@
   function setCursor(surface,c){ if(surface.style.cursor!==c) surface.style.cursor=c; }
   function wirePaint(surface){
     surface.addEventListener('pointerdown',function(ev){
+      if(window.eyedropperActive) return;
       if(!state.tool) return;
       var el=pointerTarget(ev); if(!el || !el.getAttribute('data-key')) return;
       ev.preventDefault(); painting=true;
@@ -1113,7 +1115,7 @@
       colAnchor:state.colAnchor, rowAnchor:state.rowAnchor, outline:state.outline,
       repeat:state.repeat, repeatX:state.repeatX, repeatY:state.repeatY, showPatternAreas:state.showPatternAreas,
       borderSize:state.borderSize, borderBg:state.borderBg,
-      fills:JSON.parse(JSON.stringify(state.fills)), borderFills:JSON.parse(JSON.stringify(state.borderFills)), patternOverrides:JSON.parse(JSON.stringify(state.patternOverrides)), palette:state.palette.slice() };
+      fills:JSON.parse(JSON.stringify(state.fills)), borderFills:JSON.parse(JSON.stringify(state.borderFills)), patternOverrides:JSON.parse(JSON.stringify(state.patternOverrides)) };
   }
   function sameSnap(a,b){
     if(!a||!b) return false;
@@ -1125,8 +1127,6 @@
     for(var x=0;x<kc.length;x++){ if(a.borderFills[kc[x]]!==b.borderFills[kc[x]]) return false; }
     var ko=Object.keys(a.patternOverrides||{}), kp=Object.keys(b.patternOverrides||{}); if(ko.length!==kp.length) return false;
     for(var y=0;y<ko.length;y++){ if((a.patternOverrides||{})[ko[y]]!==(b.patternOverrides||{})[ko[y]]) return false; }
-    if(a.palette.length!==b.palette.length) return false;
-    for(var j=0;j<a.palette.length;j++){ if(a.palette[j]!==b.palette[j]) return false; }
     return true;
   }
   function commit(){
@@ -1146,7 +1146,7 @@
     state.repeat=s.repeat; state.repeatX=s.repeatX; state.repeatY=s.repeatY; state.showPatternAreas=s.showPatternAreas;
     state.borderSize=(s.borderSize!=null?s.borderSize:state.borderSize);
     state.borderBg=(s.borderBg!==undefined?s.borderBg:state.borderBg);
-    state.fills=JSON.parse(JSON.stringify(s.fills)); state.borderFills=JSON.parse(JSON.stringify(s.borderFills||{})); state.patternOverrides=JSON.parse(JSON.stringify(s.patternOverrides||{})); state.palette=s.palette.slice();
+    state.fills=JSON.parse(JSON.stringify(s.fills)); state.borderFills=JSON.parse(JSON.stringify(s.borderFills||{})); state.patternOverrides=JSON.parse(JSON.stringify(s.patternOverrides||{}));
     syncUI(); renderPalette(); buildGrid(); updateRepeatView();
     restoring=false; updateUndoButtons();
   }
@@ -1225,6 +1225,7 @@
     });
     imgEl.addEventListener('pointerleave',function(){ loupe.style.display='none'; });
     imgEl.addEventListener('click',function(ev){
+      if(window.eyedropperActive) return;
       var hex=sample(ev); if(!hex) return;
       if(swapPopupOpen()){ setActiveColor(hex); return; }
       showColorConfirm(hex, ev.clientX, ev.clientY);
@@ -1382,7 +1383,15 @@
 
   $('eyedropBtn').addEventListener('click',async function(){
     if('EyeDropper' in window){
-      try{ var ed=new EyeDropper(); var res=await ed.open(); setActiveColor(res.sRGBHex); }catch(e){}
+      try{ 
+        window.eyedropperActive = true;
+        var ed=new EyeDropper(); 
+        var res=await ed.open(); 
+        setActiveColor(res.sRGBHex); 
+      }catch(e){}
+      finally {
+        window.eyedropperActive = false;
+      }
     } else {
       var b=$('eyedropBtn'); b.classList.add('unsupported'); b.title='Screen sampling needs Chrome or Edge';
       setTimeout(function(){ b.classList.remove('unsupported'); },1400);
